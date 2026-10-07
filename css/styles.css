@@ -108,6 +108,7 @@ a {
   max-width: var(--ancho-maximo);
   margin: 0 auto;
   padding: 48px 16px;
+  scroll-margin-top: 90px;
 }
 
 .seccion h2 {
