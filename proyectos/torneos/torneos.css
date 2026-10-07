@@ -1,0 +1,18 @@
+/* Estilos propios del generador de torneos.
+   Los generales (colores, cabecera, secciones...) vienen de ../../css/styles.css */
+
+.fases {
+  padding-left: 1.2rem;
+}
+
+.fases li {
+  margin-bottom: 6px;
+}
+
+.zona-generador {
+  padding: 32px 16px;
+  border: 2px dashed var(--color-borde);
+  border-radius: 12px;
+  text-align: center;
+  color: var(--color-suave);
+}

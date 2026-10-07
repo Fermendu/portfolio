@@ -5,6 +5,8 @@
   --color-suave: #4a5c54;
   --color-principal: #2e7d5b;
   --color-tarjeta: #ffffff;
+  --color-principal-suave: #e3f1ea;
+  --color-borde: #dde5e0;
   --ancho-maximo: 900px;
 }
 
@@ -89,13 +91,6 @@ a {
   border-bottom: 1px solid #dde5e0;
 }
 
-.logo {
-  font-weight: bold;
-  font-size: 1.2rem;
-  text-decoration: none;
-  color: var(--color-texto);
-}
-
 .menu {
   display: flex;
   flex-wrap: wrap;
@@ -170,14 +165,83 @@ a {
 }
 
 .tarjeta {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   background-color: var(--color-tarjeta);
-  padding: 16px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  border: 1px solid var(--color-borde);
+  border-top: 4px solid var(--color-principal);
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .tarjeta h3 {
-  margin-top: 0;
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.tarjeta p {
+  margin: 0;
+  color: var(--color-suave);
+}
+
+/* El enlace del título cubre toda la tarjeta, así se puede pulsar en cualquier sitio */
+.tarjeta-enlace {
+  color: var(--color-texto);
+  text-decoration: none;
+}
+
+.tarjeta-enlace::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 12px;
+}
+
+/* Solo se mueven las tarjetas que tienen enlace */
+.tarjeta:has(.tarjeta-enlace):hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tarjeta:focus-within {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 4px;
+}
+
+/* Proyectos que aún no han empezado */
+.tarjeta-proxima {
+  border-top-color: var(--color-borde);
+  opacity: 0.75;
+}
+
+/* Etiqueta de estado: "En construcción", "Próximamente"... */
+.estado {
+  align-self: flex-start;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background-color: var(--color-principal-suave);
+  color: var(--color-principal);
+}
+
+.tarjeta-proxima .estado {
+  background-color: var(--color-fondo);
+  color: var(--color-suave);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tarjeta {
+    transition: none;
+  }
+
+  .tarjeta:has(.tarjeta-enlace):hover {
+    transform: none;
+  }
 }
 
 /* ===== Pie de página ===== */

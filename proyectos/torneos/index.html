@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Generador de cuadros de torneo · Mendu</title>
+  <meta name="description" content="Generador de cuadros de torneo de pádel hecho con JavaScript puro. Proyecto del portfolio de Mendu.">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="torneos.css">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <script src="torneos.js" defer></script>
+</head>
+<body>
+  <header class="cabecera">
+    <a href="../../index.html" class="logo" aria-label="Mendu, ir al inicio">
+      <span class="logo-prompt" aria-hidden="true">&gt;</span>mendu<span class="logo-cursor" aria-hidden="true"></span>
+    </a>
+    <nav>
+      <ul class="menu">
+        <li><a href="../../index.html#proyectos">← Proyectos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="seccion">
+      <span class="estado">En construcción</span>
+      <h1>Generador de cuadros de torneo</h1>
+      <p>Una herramienta para organizar torneos de pádel: metes las parejas y genera los cuadros automáticamente. Está hecha solo con JavaScript, sin librerías.</p>
+    </section>
+
+    <section class="seccion">
+      <h2>Fases del proyecto</h2>
+      <ol class="fases">
+        <li><strong>Eliminatoria</strong> con byes y cabezas de serie.</li>
+        <li><strong>Liguilla</strong> de grupos.</li>
+        <li><strong>Consolación</strong> para los que caen en la primera ronda.</li>
+        <li><strong>Previas</strong> para entrar al cuadro final.</li>
+      </ol>
+    </section>
+
+    <section class="seccion">
+      <h2>Generador</h2>
+      <div id="generador" class="zona-generador">
+        <p>Aquí irá el generador de cuadros.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <p>&copy; 2026 Fernando "Mendu"</p>
+  </footer>
+</body>
+</html>
