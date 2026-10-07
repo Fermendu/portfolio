@@ -1,0 +1,142 @@
+/* ===== Colores y valores que se repiten ===== */
+:root {
+  --color-fondo: #f4f7f5;
+  --color-texto: #1f2d27;
+  --color-suave: #4a5c54;
+  --color-principal: #2e7d5b;
+  --color-tarjeta: #ffffff;
+  --ancho-maximo: 900px;
+}
+
+/* ===== Base ===== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+}
+
+a {
+  color: var(--color-principal);
+}
+
+/* ===== Cabecera y menú ===== */
+.cabecera {
+  position: sticky;
+  top: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 12px 16px;
+  background-color: var(--color-tarjeta);
+  border-bottom: 1px solid #dde5e0;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-decoration: none;
+  color: var(--color-texto);
+}
+
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu a {
+  text-decoration: none;
+  color: var(--color-suave);
+}
+
+.menu a:hover {
+  color: var(--color-principal);
+}
+
+/* ===== Portada ===== */
+.portada {
+  min-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.portada h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.subtitulo {
+  font-size: 1.2rem;
+  color: var(--color-suave);
+}
+
+.boton {
+  display: inline-block;
+  margin-top: 1rem;
+  padding: 10px 24px;
+  border-radius: 999px;
+  background-color: var(--color-principal);
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.boton:hover {
+  opacity: 0.85;
+}
+
+/* ===== Secciones ===== */
+.seccion {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 48px 16px;
+}
+
+.seccion h2 {
+  border-bottom: 3px solid var(--color-principal);
+  display: inline-block;
+}
+
+/* ===== Tarjetas de proyectos ===== */
+.tarjetas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.tarjeta {
+  background-color: var(--color-tarjeta);
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.tarjeta h3 {
+  margin-top: 0;
+}
+
+/* ===== Pie de página ===== */
+.pie {
+  text-align: center;
+  padding: 24px 16px;
+  color: var(--color-suave);
+  border-top: 1px solid #dde5e0;
+}
