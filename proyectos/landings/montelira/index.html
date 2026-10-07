@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grado en Tecnología y Gestión del Deporte · Universidad de Montelira</title>
+  <meta name="description" content="Landing de práctica para una universidad inventada. Proyecto del portfolio de Mendu.">
+  <!-- Es una universidad inventada: pedimos a los buscadores que no la muestren -->
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="montelira.css">
+  <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+  <script src="montelira.js" defer></script>
+</head>
+<body>
+  <!-- Aviso de que es un proyecto de práctica -->
+  <div class="aviso-practica">
+    Universidad y grado inventados: proyecto de práctica de Mendu.
+    <a href="../../../index.html#proyectos">← Volver al portfolio</a>
+  </div>
+
+  <header class="cabecera">
+    <a href="#inicio" class="marca" aria-label="Universidad de Montelira, ir al inicio">
+      <span class="marca-simbolo" aria-hidden="true">m</span>
+      <span class="marca-texto">montelira<small>universidad</small></span>
+    </a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="#por-que">Por qué</a>
+      <a href="#plan">El plan</a>
+      <a href="#salidas">Salidas</a>
+      <a href="#admision">Admisión</a>
+    </nav>
+    <a href="#informacion" class="boton boton-pequeno">Pide información</a>
+  </header>
+
+  <main>
+    <!-- ===== Portada: texto a la izquierda, formulario a la derecha ===== -->
+    <section id="inicio" class="portada">
+      <div class="contenedor portada-rejilla">
+        <div class="portada-texto">
+          <p class="antetitulo">Nuevo grado · Curso 2027-2028</p>
+          <h1>Haz del deporte tu <span class="subrayado">profesión</span>, con datos y tecnología.</h1>
+          <p class="entradilla">Un grado para quien quiere dirigir clubes, analizar partidos y crear las herramientas que el deporte todavía no tiene.</p>
+
+          <ul class="chips" aria-label="Datos del grado">
+            <li>4 años</li>
+            <li>240 ECTS</li>
+            <li>Presencial</li>
+            <li>40 plazas</li>
+          </ul>
+        </div>
+
+        <!-- Formulario de información -->
+        <form id="informacion" class="formulario" aria-labelledby="titulo-formulario">
+          <h2 id="titulo-formulario">Te lo contamos todo</h2>
+          <p class="formulario-intro">Déjanos tus datos y te escribimos en menos de 48 horas.</p>
+
+          <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="given-name" required>
+          </div>
+
+          <div class="campo">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" autocomplete="email" required>
+          </div>
+
+          <div class="campo">
+            <label for="situacion">¿Qué estudias ahora?</label>
+            <select id="situacion" name="situacion" required>
+              <option value="">Elige una opción</option>
+              <option>Bachillerato</option>
+              <option>Formación Profesional</option>
+              <option>Otro grado</option>
+              <option>Estoy trabajando</option>
+            </select>
+          </div>
+
+          <!-- Botones de opción con forma de pastilla -->
+          <fieldset class="campo">
+            <legend>¿Qué te atrae más?</legend>
+            <div class="pastillas">
+              <label><input type="radio" name="interes" value="datos" required> Los datos</label>
+              <label><input type="radio" name="interes" value="gestion"> La gestión</label>
+              <label><input type="radio" name="interes" value="las-dos"> Las dos</label>
+            </div>
+          </fieldset>
+
+          <label class="casilla">
+            <input type="checkbox" name="privacidad" required>
+            Acepto la política de privacidad
+          </label>
+
+          <button type="submit" class="boton boton-ancho">Quiero información</button>
+          <p class="form-estado" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== Por qué: rejilla de bloques de distintos tamaños ===== -->
+    <section id="por-que" class="seccion" aria-labelledby="titulo-por-que">
+      <div class="contenedor">
+        <h2 id="titulo-por-que">Por qué Montelira</h2>
+        <div class="bloques">
+          <article class="bloque bloque-grande">
+            <p class="bloque-cifra">50%</p>
+            <h3>de las horas, fuera del aula</h3>
+            <p>Pista, laboratorio y club. Aprendes haciendo desde la primera semana.</p>
+          </article>
+          <article class="bloque">
+            <h3>Laboratorio de rendimiento</h3>
+            <p>Sensores, cámaras y software de análisis para trabajar con deportistas reales.</p>
+          </article>
+          <article class="bloque">
+            <h3>Grupos de 40</h3>
+            <p>Nadie se pierde entre la multitud.</p>
+          </article>
+          <article class="bloque bloque-ancho">
+            <h3>Un proyecto real cada año</h3>
+            <p>Desde organizar un torneo en primero hasta lanzar una app para un club en cuarto.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== El plan: línea de tiempo por años ===== -->
+    <section id="plan" class="seccion seccion-arena" aria-labelledby="titulo-plan">
+      <div class="contenedor contenedor-estrecho">
+        <h2 id="titulo-plan">Cuatro años, cuatro etapas</h2>
+        <ol class="linea-tiempo">
+          <li class="etapa">
+            <p class="etapa-ano">Año 1 · 60 ECTS</p>
+            <h3>Las bases</h3>
+            <p>Programación, estadística y cómo funciona el negocio del deporte.</p>
+            <details>
+              <summary>Ver asignaturas</summary>
+              <ul class="asignaturas">
+                <li>Fundamentos de programación</li>
+                <li>Matemáticas aplicadas</li>
+                <li>Fisiología del ejercicio</li>
+                <li>Introducción a la economía</li>
+                <li>Sociología del deporte</li>
+                <li>Estadística</li>
+                <li>Bases de datos</li>
+                <li>Fundamentos de gestión deportiva</li>
+                <li>Comunicación y marketing</li>
+                <li>Inglés técnico</li>
+              </ul>
+            </details>
+          </li>
+          <li class="etapa">
+            <p class="etapa-ano">Año 2 · 60 ECTS</p>
+            <h3>Las herramientas</h3>
+            <p>Python, análisis y visualización de datos, finanzas y derecho deportivo.</p>
+            <details>
+              <summary>Ver asignaturas</summary>
+              <ul class="asignaturas">
+                <li>Programación con Python</li>
+                <li>Biomecánica</li>
+                <li>Contabilidad y finanzas</li>
+                <li>Sistemas de información</li>
+                <li>Derecho del deporte</li>
+                <li>Análisis de datos</li>
+                <li>Visualización de datos</li>
+                <li>Marketing deportivo</li>
+                <li>Planificación del entrenamiento</li>
+                <li>Gestión de instalaciones</li>
+              </ul>
+            </details>
+          </li>
+          <li class="etapa">
+            <p class="etapa-ano">Año 3 · 60 ECTS</p>
+            <h3>La aplicación</h3>
+            <p>Aprendizaje automático, desarrollo de apps y organización de eventos.</p>
+            <details>
+              <summary>Ver asignaturas</summary>
+              <ul class="asignaturas">
+                <li>Aprendizaje automático</li>
+                <li>Analítica del rendimiento</li>
+                <li>Desarrollo web y de aplicaciones</li>
+                <li>Sensores y dispositivos para deportistas</li>
+                <li>Investigación de mercados</li>
+                <li>Organización de eventos deportivos</li>
+                <li>Patrocinio y modelos de negocio</li>
+                <li>Gestión de proyectos</li>
+                <li>Ética y protección de datos</li>
+                <li>Emprendimiento</li>
+              </ul>
+            </details>
+          </li>
+          <li class="etapa">
+            <p class="etapa-ano">Año 4 · 60 ECTS</p>
+            <h3>Tu especialidad</h3>
+            <p>Eliges tres optativas, haces prácticas en un club o empresa y presentas tu trabajo de fin de grado.</p>
+            <details>
+              <summary>Ver asignaturas</summary>
+              <ul class="asignaturas">
+                <li>Big data aplicado al deporte</li>
+                <li>Dirección estratégica</li>
+                <li>Scouting y detección de talento</li>
+                <li>Tres optativas a elegir</li>
+                <li>Prácticas en empresa (12 ECTS)</li>
+                <li>Trabajo de fin de grado (12 ECTS)</li>
+              </ul>
+            </details>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Salidas: tarjetas que se deslizan en horizontal ===== -->
+    <section id="salidas" class="seccion" aria-labelledby="titulo-salidas">
+      <div class="contenedor">
+        <h2 id="titulo-salidas">¿Y después?</h2>
+        <p class="seccion-intro">Algunos de los puestos para los que te prepara el grado. Desliza para ver más.</p>
+        <ul class="carrusel">
+          <li class="perfil">
+            <h3>Analista de datos deportivos</h3>
+            <p>Conviertes partidos y entrenamientos en decisiones para el cuerpo técnico.</p>
+          </li>
+          <li class="perfil">
+            <h3>Gerente de club</h3>
+            <p>Llevas las cuentas, el equipo humano y el crecimiento de una entidad deportiva.</p>
+          </li>
+          <li class="perfil">
+            <h3>Organizador de torneos</h3>
+            <p>Desde el cuadro de juego hasta los patrocinadores y la retransmisión.</p>
+          </li>
+          <li class="perfil">
+            <h3>Desarrollador de apps deportivas</h3>
+            <p>Creas las herramientas que usan jugadores, entrenadores y aficionados.</p>
+          </li>
+          <li class="perfil">
+            <h3>Responsable de marketing</h3>
+            <p>Haces crecer la marca de un club, una liga o un evento.</p>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ===== Testimonio ===== -->
+    <section class="seccion seccion-tinta" aria-label="Testimonio">
+      <div class="contenedor contenedor-estrecho">
+        <figure class="testimonio">
+          <blockquote>
+            <p>En segundo ya estaba analizando los partidos del equipo juvenil de mi ciudad. Nunca pensé que lo que me gustaba pudiera convertirse en mi trabajo.</p>
+          </blockquote>
+          <figcaption>Lucía, estudiante de tercero <span>(persona inventada)</span></figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ===== Admisión: calendario ===== -->
+    <section id="admision" class="seccion" aria-labelledby="titulo-admision">
+      <div class="contenedor">
+        <h2 id="titulo-admision">Calendario de admisión</h2>
+        <ol class="calendario">
+          <li>
+            <time>Enero</time>
+            <p>Se abre la preinscripción.</p>
+          </li>
+          <li>
+            <time>Marzo - abril</time>
+            <p>Entrevistas personales de veinte minutos.</p>
+          </li>
+          <li>
+            <time>Junio</time>
+            <p>Publicamos la lista de admitidos.</p>
+          </li>
+          <li>
+            <time>Julio</time>
+            <p>Reservas tu plaza y te matriculas.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== Preguntas frecuentes ===== -->
+    <section class="seccion seccion-arena" aria-labelledby="titulo-preguntas">
+      <div class="contenedor contenedor-estrecho">
+        <h2 id="titulo-preguntas">Dudas habituales</h2>
+        <div class="preguntas">
+          <details>
+            <summary>¿Necesito saber programar antes de empezar?</summary>
+            <p>No. En primero empezamos desde cero y vamos subiendo el nivel poco a poco.</p>
+          </details>
+          <details>
+            <summary>¿Tengo que ser deportista?</summary>
+            <p>No es obligatorio, aunque te ayudará que te guste el deporte, porque todos los casos prácticos salen de ahí.</p>
+          </details>
+          <details>
+            <summary>¿Hay becas?</summary>
+            <p>Sí: becas propias por rendimiento académico y por méritos deportivos.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Llamada final ===== -->
+    <section class="cierre">
+      <div class="contenedor">
+        <h2>¿Te lo estás pensando?</h2>
+        <p>Pide información y resolvemos tus dudas sin compromiso.</p>
+        <a href="#informacion" class="boton boton-claro">Pide información</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor">
+      <p><strong>montelira</strong> · Universidad inventada para un proyecto de práctica.</p>
+      <p>Diseño y código: <a href="../../../index.html">Mendu</a></p>
+    </div>
+  </footer>
+</body>
+</html>

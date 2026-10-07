@@ -26,6 +26,7 @@ Publicada con GitHub Pages: https://fermendu.github.io/portfolio/
 ## Hoja de ruta
 - Cada proyecto vive en `proyectos/<nombre>/` con su `index.html`, y su CSS y JS propios.
 - Las subpáginas reutilizan `../../css/styles.css` y tienen la misma cabecera con el logo para volver al inicio.
+- Excepción: cada landing (`proyectos/landings/<marca>/`) tiene su propia identidad y CSS, con una franja arriba que avisa de que es inventada y enlaza al portfolio.
 - Las tarjetas de la sección Proyectos del index enlazan a cada proyecto y muestran su estado ("En construcción", "Próximamente").
 - Crear cada subpágina solo cuando se empiece ese proyecto.
 

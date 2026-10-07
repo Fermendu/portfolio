@@ -1,0 +1,749 @@
+/* Landing de la Universidad de Montelira (inventada).
+   Tiene su propia identidad, así que no usa el CSS del portfolio. */
+
+/* ===== Identidad de la marca ===== */
+:root {
+  --tinta: #17171c;
+  --tinta-suave: #5b5b66;
+  --coral: #ff5a36;
+  --coral-oscuro: #c93a1a;
+  --coral-claro: #ffe1d8;
+  --arena: #f6efe6;
+  --blanco: #ffffff;
+  --borde: #e6ddd1;
+  --error: #b3261e;
+
+  --radio: 20px;
+  --ancho-maximo: 1120px;
+  --alto-cabecera: 68px;
+}
+
+/* ===== Base ===== */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--tinta);
+  background-color: var(--blanco);
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+h2 {
+  margin: 0 0 24px;
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+  font-weight: 800;
+}
+
+h3 {
+  margin: 0 0 8px;
+  font-size: 1.2rem;
+}
+
+a {
+  color: var(--coral-oscuro);
+}
+
+a:focus-visible,
+button:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
+}
+
+.contenedor {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.contenedor-estrecho {
+  max-width: 760px;
+}
+
+/* ===== Aviso de proyecto de práctica ===== */
+.aviso-practica {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  text-align: center;
+  background-color: var(--tinta);
+  color: var(--blanco);
+}
+
+.aviso-practica a {
+  margin-left: 8px;
+  font-weight: 600;
+  color: var(--coral);
+}
+
+/* ===== Botones ===== */
+.boton {
+  display: inline-block;
+  padding: 14px 28px;
+  border: none;
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  text-align: center;
+  background-color: var(--coral);
+  color: var(--tinta);
+  cursor: pointer;
+  transition: transform 0.15s, background-color 0.15s;
+}
+
+.boton:hover {
+  transform: translateY(-2px);
+  background-color: #ff7350;
+}
+
+.boton-pequeno {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
+
+.boton-ancho {
+  width: 100%;
+}
+
+.boton-claro {
+  background-color: var(--blanco);
+}
+
+.boton-claro:hover {
+  background-color: var(--arena);
+}
+
+/* ===== Cabecera ===== */
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: var(--alto-cabecera);
+  padding: 8px 16px;
+  background-color: rgba(255, 255, 255, 0.92);
+  /* Difumina lo que pasa por debajo de la cabecera */
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--borde);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--tinta);
+}
+
+.marca-simbolo {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background-color: var(--coral);
+  font-size: 1.6rem;
+  font-weight: 900;
+  line-height: 1;
+  color: var(--tinta);
+}
+
+.marca-texto {
+  display: flex;
+  flex-direction: column;
+  font-size: 1.2rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.marca-texto small {
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--tinta-suave);
+}
+
+/* En móvil el menú se oculta: solo quedan la marca y el botón */
+.menu {
+  display: none;
+}
+
+@media (min-width: 860px) {
+  .menu {
+    display: flex;
+    gap: 4px;
+  }
+
+  .menu a {
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--tinta);
+  }
+
+  .menu a:hover {
+    background-color: var(--arena);
+  }
+}
+
+/* ===== Secciones ===== */
+.seccion {
+  padding: 72px 0;
+  /* Para que la cabecera fija no tape el título al saltar desde el menú */
+  scroll-margin-top: var(--alto-cabecera);
+}
+
+.seccion-arena {
+  background-color: var(--arena);
+}
+
+.seccion-tinta {
+  background-color: var(--tinta);
+  color: var(--blanco);
+}
+
+.seccion-intro {
+  margin: -12px 0 24px;
+  color: var(--tinta-suave);
+}
+
+/* ===== Portada ===== */
+.portada {
+  padding: 48px 0 72px;
+  background:
+    radial-gradient(circle at 85% 20%, var(--coral-claro), transparent 45%),
+    var(--arena);
+}
+
+.portada-rejilla {
+  display: grid;
+  gap: 40px;
+  align-items: center;
+}
+
+@media (min-width: 900px) {
+  .portada-rejilla {
+    grid-template-columns: 1.3fr 1fr;
+  }
+}
+
+.antetitulo {
+  margin: 0 0 16px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--coral-oscuro);
+}
+
+.portada h1 {
+  margin: 0 0 20px;
+  font-size: clamp(2.2rem, 7vw, 4rem);
+  font-weight: 900;
+}
+
+/* Subrayado grueso en coral detrás de la palabra */
+.subrayado {
+  background: linear-gradient(transparent 72%, var(--coral) 72%, var(--coral) 92%, transparent 92%);
+}
+
+.entradilla {
+  max-width: 32em;
+  margin: 0 0 24px;
+  font-size: 1.15rem;
+  color: var(--tinta-suave);
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.chips li {
+  padding: 6px 16px;
+  border: 2px solid var(--tinta);
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+/* ===== Formulario ===== */
+.formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  border-radius: var(--radio);
+  background-color: var(--blanco);
+  box-shadow: 0 20px 50px rgba(23, 23, 28, 0.12);
+  scroll-margin-top: calc(var(--alto-cabecera) + 16px);
+}
+
+.formulario h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.formulario-intro {
+  margin: -8px 0 0;
+  color: var(--tinta-suave);
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+fieldset.campo {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.campo label,
+legend {
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+legend {
+  margin-bottom: 6px;
+  padding: 0;
+}
+
+.formulario input[type="text"],
+.formulario input[type="email"],
+.formulario select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 2px solid var(--borde);
+  border-radius: 12px;
+  font: inherit;
+  background-color: var(--blanco);
+}
+
+.formulario input:focus-visible,
+.formulario select:focus-visible {
+  outline: none;
+  border-color: var(--coral);
+}
+
+/* Solo marca el error cuando la persona ya ha tocado el campo */
+.formulario input:user-invalid,
+.formulario select:user-invalid {
+  border-color: var(--error);
+}
+
+/* Botones de opción con forma de pastilla:
+   el círculo se oculta y se colorea la etiqueta entera */
+.pastillas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pastillas label {
+  padding: 8px 16px;
+  border: 2px solid var(--borde);
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pastillas input {
+  /* Oculto a la vista, pero sigue funcionando con teclado y lector de pantalla */
+  position: absolute;
+  opacity: 0;
+  width: 1px;
+  height: 1px;
+}
+
+.pastillas label:has(input:checked) {
+  border-color: var(--tinta);
+  background-color: var(--tinta);
+  color: var(--blanco);
+}
+
+.pastillas label:has(input:focus-visible) {
+  outline: 3px solid var(--coral);
+  outline-offset: 2px;
+}
+
+.casilla {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+}
+
+.casilla input {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--coral-oscuro);
+}
+
+.form-estado {
+  margin: 0;
+  font-weight: 600;
+  color: var(--coral-oscuro);
+}
+
+/* ===== Por qué: rejilla de bloques ===== */
+.bloques {
+  display: grid;
+  gap: 16px;
+}
+
+/* En pantallas anchas cada bloque ocupa su zona con nombre */
+@media (min-width: 760px) {
+  .bloques {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "grande uno dos"
+      "grande ancho ancho";
+  }
+
+  .bloque-grande { grid-area: grande; }
+  .bloque-ancho { grid-area: ancho; }
+}
+
+.bloque {
+  padding: 28px;
+  border-radius: var(--radio);
+  background-color: var(--arena);
+}
+
+.bloque p {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+.bloque-grande {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  min-height: 260px;
+  background-color: var(--coral);
+}
+
+.bloque-grande p {
+  color: var(--tinta);
+}
+
+.bloque-grande .bloque-cifra {
+  font-size: clamp(4rem, 12vw, 6rem);
+  font-weight: 900;
+  line-height: 1;
+  letter-spacing: -0.04em;
+}
+
+.bloque-ancho {
+  background-color: var(--tinta);
+  color: var(--blanco);
+}
+
+.bloque-ancho p {
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* ===== El plan: línea de tiempo ===== */
+.linea-tiempo {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.etapa {
+  position: relative;
+  padding: 0 0 40px 40px;
+  /* La línea vertical que une las etapas */
+  border-left: 3px solid var(--borde);
+}
+
+.etapa:last-child {
+  padding-bottom: 0;
+  border-left-color: transparent;
+}
+
+/* El punto de cada etapa, encima de la línea */
+.etapa::before {
+  content: "";
+  position: absolute;
+  left: -11px;
+  top: 2px;
+  width: 19px;
+  height: 19px;
+  border: 4px solid var(--arena);
+  border-radius: 50%;
+  background-color: var(--coral);
+}
+
+.etapa-ano {
+  margin: 0 0 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--coral-oscuro);
+}
+
+.etapa h3 {
+  font-size: 1.5rem;
+}
+
+.etapa > p {
+  margin: 0 0 12px;
+  color: var(--tinta-suave);
+}
+
+.etapa summary {
+  display: inline-block;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+/* Quita el triángulo por defecto en Safari */
+.etapa summary::-webkit-details-marker {
+  display: none;
+}
+
+.etapa summary::after {
+  content: " ↓";
+}
+
+.etapa details[open] summary::after {
+  content: " ↑";
+}
+
+/* Las asignaturas en dos columnas cuando hay sitio */
+.asignaturas {
+  margin: 12px 0 0;
+  padding: 16px 16px 16px 36px;
+  border-radius: 12px;
+  background-color: var(--blanco);
+  columns: 2 220px;
+  column-gap: 32px;
+}
+
+/* ===== Salidas: carrusel horizontal ===== */
+.carrusel {
+  display: flex;
+  gap: 16px;
+  margin: 0;
+  padding: 0 0 16px;
+  list-style: none;
+  overflow-x: auto;
+  /* Al soltar, la tarjeta más cercana se coloca en su sitio */
+  scroll-snap-type: x mandatory;
+}
+
+.perfil {
+  flex: 0 0 min(80%, 280px);
+  padding: 24px;
+  border: 2px solid var(--tinta);
+  border-radius: var(--radio);
+  scroll-snap-align: start;
+}
+
+.perfil:nth-child(odd) {
+  background-color: var(--coral-claro);
+}
+
+.perfil p {
+  margin: 0;
+  color: var(--tinta-suave);
+}
+
+/* ===== Testimonio ===== */
+.testimonio {
+  margin: 0;
+}
+
+.testimonio blockquote {
+  margin: 0;
+}
+
+.testimonio blockquote p {
+  margin: 0;
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700;
+  line-height: 1.3;
+  letter-spacing: -0.01em;
+}
+
+/* Comillas grandes de adorno */
+.testimonio blockquote::before {
+  content: "“";
+  display: block;
+  height: 0.6em;
+  font-size: 6rem;
+  line-height: 1;
+  color: var(--coral);
+}
+
+.testimonio figcaption {
+  margin-top: 24px;
+  font-weight: 700;
+  color: var(--coral);
+}
+
+.testimonio figcaption span {
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* ===== Calendario de admisión ===== */
+.calendario {
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 760px) {
+  .calendario {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.calendario li {
+  padding-top: 16px;
+  border-top: 4px solid var(--tinta);
+}
+
+.calendario li:first-child {
+  border-top-color: var(--coral);
+}
+
+.calendario time {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.calendario p {
+  margin: 4px 0 0;
+  color: var(--tinta-suave);
+}
+
+/* ===== Preguntas frecuentes ===== */
+.preguntas {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.preguntas details {
+  border-radius: 16px;
+  background-color: var(--blanco);
+}
+
+.preguntas summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  font-weight: 700;
+  cursor: pointer;
+  list-style: none;
+}
+
+.preguntas summary::-webkit-details-marker {
+  display: none;
+}
+
+/* Flecha que gira al abrir */
+.preguntas summary::after {
+  content: "›";
+  font-size: 1.6rem;
+  line-height: 1;
+  color: var(--coral-oscuro);
+  transition: transform 0.2s;
+}
+
+.preguntas details[open] summary::after {
+  transform: rotate(90deg);
+}
+
+.preguntas details p {
+  margin: 0;
+  padding: 0 22px 18px;
+  color: var(--tinta-suave);
+}
+
+/* ===== Llamada final ===== */
+.cierre {
+  padding: 72px 0;
+  text-align: center;
+  background-color: var(--coral);
+}
+
+.cierre h2 {
+  margin-bottom: 8px;
+}
+
+.cierre p {
+  margin: 0 0 24px;
+  font-size: 1.1rem;
+}
+
+/* ===== Pie ===== */
+.pie {
+  padding: 32px 0;
+  font-size: 0.9rem;
+  background-color: var(--tinta);
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.pie p {
+  margin: 4px 0;
+}
+
+.pie a {
+  color: var(--coral);
+}
+
+/* ===== Movimiento reducido ===== */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  .boton,
+  .preguntas summary::after {
+    transition: none;
+  }
+
+  .boton:hover {
+    transform: none;
+  }
+}
