@@ -28,6 +28,14 @@ body {
 a {
   color: var(--color-principal);
 }
+/* ===== Foco con teclado ===== */
+.logo:focus-visible,
+.menu a:focus-visible,
+.boton:focus-visible {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 4px;
+  border-radius: 4px;
+}
 
 /* ===== Logo estilo terminal ===== */
 .logo {
@@ -99,7 +107,7 @@ a {
 
 .menu a {
   text-decoration: none;
-  color: var(--color-suave);
+  color: var(--color-suave);  
 }
 
 .menu a:hover {
