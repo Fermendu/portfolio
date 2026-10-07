@@ -367,6 +367,13 @@ a {
   display: none;
 }
 
+/* Aviso de privacidad bajo el botón */
+.form-privacidad {
+  margin: 0;
+  font-size: 0.85rem;
+  color: var(--color-suave);
+}
+
 /* Mensaje tras enviar el formulario */
 .form-estado {
   margin: 0;
