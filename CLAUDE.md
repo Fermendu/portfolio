@@ -4,7 +4,7 @@ Web personal de Fernando Menduiña: informático y profesor de pádel.
 Publicada con GitHub Pages: https://fermendu.github.io/portfolio/
 
 ## Estructura
-- `index.html` — página única con secciones: inicio, sobre mí, proyectos, pádel, contacto.
+- `index.html` — página única con secciones: inicio, sobre mí, proyectos, contacto.
 - `css/styles.css` — todos los estilos. Colores y medidas en variables de `:root`.
 
 ## Tecnología
