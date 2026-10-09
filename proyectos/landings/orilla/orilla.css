@@ -1,0 +1,917 @@
+/* Landing de Orilla, cafetería de especialidad (inventada).
+   Tiene su propia identidad, así que no usa el CSS del portfolio. */
+
+/* ===== Identidad de la marca ===== */
+:root {
+  --papel: #f2f2ee;
+  --superficie: #ffffff;
+  --tinta: #171615;
+  --tinta-suave: #5c5955;
+  --borde: #dcdad4;
+  --cereza: #c42f3b;
+  --cereza-hover: #a3232f;
+  --cereza-claro: #f6dcdc;
+  --sobre-cereza: #ffffff;
+  --error: #b3261e;
+
+  /* La sección de la cata es oscura en los dos modos */
+  --fondo-cata: #171615;
+  --texto-cata: #f2f2ee;
+  --cereza-en-oscuro: #f0646b;
+  --superficie-formulario: #ffffff;
+
+  /* Formas: tarjetas con 20px, botones y etiquetas en pastilla, campos con 12px */
+  --radio: 20px;
+  --radio-campo: 12px;
+  --ancho-maximo: 1120px;
+  --alto-cabecera: 64px;
+
+  /* Curvas de animación: salida rápida para lo que entra, suave para lo que se mueve */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Modo oscuro: mismos nombres, otros valores */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --papel: #141312;
+    --superficie: #1d1c1a;
+    --tinta: #ecebe7;
+    --tinta-suave: #a5a29c;
+    --borde: #34312e;
+    --cereza: #f0646b;
+    --cereza-hover: #f58a8f;
+    --cereza-claro: #3a1f21;
+    --sobre-cereza: #1a0b0c;
+    --error: #ff8a80;
+
+    --fondo-cata: #1d1c1a;
+    --superficie-formulario: #262422;
+  }
+}
+
+/* ===== Base ===== */
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+html {
+  /* Al saltar a una sección, que no quede tapada por la cabecera fija */
+  scroll-padding-top: var(--alto-cabecera);
+}
+
+body {
+  margin: 0;
+  font-family: "Bricolage Grotesque", system-ui, sans-serif;
+  line-height: 1.6;
+  color: var(--tinta);
+  background-color: var(--papel);
+}
+
+h1,
+h2,
+h3 {
+  margin: 0;
+  line-height: 1.1;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+
+h2 {
+  margin-bottom: 16px;
+  font-size: clamp(2rem, 6vw, 3rem);
+}
+
+h3 {
+  font-size: 1.2rem;
+}
+
+p {
+  margin: 0;
+}
+
+a {
+  color: var(--cereza);
+}
+
+/* Quitamos el destello gris al tocar en el móvil: ya hay respuesta visual propia */
+a,
+button,
+label {
+  -webkit-tap-highlight-color: transparent;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 3px solid var(--cereza);
+  outline-offset: 3px;
+}
+
+.contenedor {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 0 16px;
+}
+
+.contenedor-estrecho {
+  max-width: 820px;
+}
+
+/* ===== Aviso de proyecto de práctica ===== */
+.aviso-practica {
+  padding: 8px 16px;
+  font-size: 0.85rem;
+  text-align: center;
+  background-color: var(--fondo-cata);
+  color: var(--texto-cata);
+}
+
+.aviso-practica a {
+  margin-left: 8px;
+  font-weight: 600;
+  color: var(--cereza-en-oscuro);
+}
+
+/* ===== Botones ===== */
+.boton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 26px;
+  border: 2px solid var(--cereza);
+  border-radius: 999px;
+  font: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  color: var(--sobre-cereza);
+  background-color: var(--cereza);
+  cursor: pointer;
+  user-select: none;
+  touch-action: manipulation;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    transform 160ms var(--ease-out);
+}
+
+/* Al pulsar, el botón se hunde un poco: confirma que se ha tocado */
+.boton:active {
+  transform: scale(0.97);
+}
+
+.boton-secundario {
+  color: var(--tinta);
+  background-color: transparent;
+  border-color: var(--borde);
+}
+
+.boton-pequeno {
+  padding: 8px 18px;
+  font-size: 0.9rem;
+}
+
+.boton-ancho {
+  width: 100%;
+}
+
+/* El hover solo en ratón: en el móvil se quedaría "pegado" tras tocar */
+@media (hover: hover) and (pointer: fine) {
+  .boton:hover {
+    background-color: var(--cereza-hover);
+    border-color: var(--cereza-hover);
+  }
+
+  .boton-secundario:hover {
+    background-color: transparent;
+    border-color: var(--tinta);
+  }
+}
+
+/* ===== Cabecera ===== */
+.marcador-cabecera {
+  height: 1px;
+}
+
+.cabecera {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--alto-cabecera);
+  margin-top: -1px;
+  /* Mismo margen lateral que .contenedor, para que el logo quede alineado con el texto */
+  padding-inline: max(16px, env(safe-area-inset-left), calc((100% - var(--ancho-maximo)) / 2 + 16px));
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+
+/* La clase la pone el JS cuando hemos bajado un poco */
+.cabecera.solida {
+  background-color: color-mix(in srgb, var(--papel) 88%, transparent);
+  border-bottom-color: var(--borde);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.marca {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  text-decoration: none;
+  color: var(--tinta);
+}
+
+.marca-punto {
+  color: var(--cereza);
+}
+
+.menu {
+  display: none;
+}
+
+.menu a {
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--tinta-suave);
+  transition: color 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu a:hover {
+    color: var(--tinta);
+  }
+}
+
+@media (min-width: 720px) {
+  .menu {
+    display: flex;
+    gap: 32px;
+  }
+}
+
+/* ===== Animación de entrada de la portada =====
+   Solo se ve una vez al cargar, así que puede ser algo más lenta y escalonada. */
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+}
+
+@keyframes aparecer-pastilla {
+  from {
+    opacity: 0;
+    transform: scale(0.94);
+  }
+}
+
+.entrada {
+  animation: aparecer 800ms var(--ease-out) both;
+  animation-delay: calc(100ms + var(--i, 0) * 90ms);
+}
+
+/* ===== Portada ===== */
+.portada {
+  padding: 40px 0 64px;
+}
+
+.portada-rejilla {
+  display: grid;
+  gap: 40px;
+}
+
+.portada h1 {
+  font-size: clamp(2.5rem, 8vw, 4.4rem);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  font-weight: 800;
+}
+
+.portada h1 em {
+  font-style: normal;
+  color: var(--cereza);
+}
+
+.entradilla {
+  max-width: 44ch;
+  margin-top: 20px;
+  font-size: 1.15rem;
+  color: var(--tinta-suave);
+}
+
+.portada-botones {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* Ficha del café de la semana */
+.ficha-semana {
+  padding: 28px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background-color: var(--superficie);
+  box-shadow: 0 24px 48px -24px color-mix(in srgb, var(--cereza) 25%, transparent);
+}
+
+.ficha-etiqueta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cereza);
+}
+
+.ficha-semana h2 {
+  margin: 4px 0 24px;
+  font-size: clamp(1.8rem, 5vw, 2.4rem);
+}
+
+.ficha-datos {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin: 0;
+  padding: 16px 0;
+  border-top: 1px solid var(--borde);
+  border-bottom: 1px solid var(--borde);
+}
+
+.ficha-datos dt {
+  font-size: 0.8rem;
+  color: var(--tinta-suave);
+}
+
+.ficha-datos dd {
+  margin: 0;
+  font-weight: 600;
+}
+
+.ficha-notas-titulo {
+  margin-top: 20px;
+  font-size: 0.85rem;
+  color: var(--tinta-suave);
+}
+
+.notas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Las notas de sabor aparecen una tras otra, justo después de la ficha */
+.notas li {
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-weight: 600;
+  background-color: var(--cereza-claro);
+  animation: aparecer-pastilla 500ms var(--ease-out) both;
+  animation-delay: calc(650ms + var(--i, 0) * 70ms);
+}
+
+@media (min-width: 900px) {
+  .portada {
+    padding: 72px 0 96px;
+  }
+
+  .portada-rejilla {
+    grid-template-columns: 1.4fr 1fr;
+    align-items: center;
+    gap: 64px;
+  }
+}
+
+/* ===== Cinta de orígenes ===== */
+.cinta {
+  overflow: hidden;
+  padding: 18px 0;
+  border-top: 1px solid var(--borde);
+  border-bottom: 1px solid var(--borde);
+}
+
+.cinta-pista {
+  display: flex;
+  width: max-content;
+  /* Movimiento constante: curva lineal. Al llegar a la mitad, la segunda lista
+     está donde empezó la primera, así que el salto no se nota. */
+  animation: desplazar 32s linear infinite;
+}
+
+.cinta ul {
+  display: flex;
+  gap: 48px;
+  margin: 0;
+  padding: 0 48px 0 0;
+  list-style: none;
+}
+
+.cinta li {
+  font-size: clamp(1.4rem, 4vw, 2rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--tinta-suave);
+}
+
+.cinta li:nth-child(odd) {
+  color: var(--tinta);
+}
+
+@keyframes desplazar {
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* ===== Aparición al hacer scroll =====
+   Solo si hay JS (clase .js en <html>): sin JS, todo se ve desde el principio. */
+.js .revelar {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 700ms var(--ease-out) var(--retardo, 0ms),
+    transform 700ms var(--ease-out) var(--retardo, 0ms),
+    translate 200ms var(--ease-out);
+  --retardo: calc(var(--i, 0) * 70ms);
+}
+
+.js .revelar.visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ===== Secciones ===== */
+.seccion {
+  padding: 72px 0;
+}
+
+.seccion-intro {
+  max-width: 60ch;
+  color: var(--tinta-suave);
+}
+
+/* ===== Cafés en grano ===== */
+.cafes {
+  display: flex;
+  gap: 16px;
+  margin: 32px 0 0;
+  padding: 4px 16px 16px;
+  list-style: none;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-padding: 0 16px;
+  /* Que el deslizamiento lateral no active el "atrás" del navegador */
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+
+.cafes::-webkit-scrollbar {
+  display: none;
+}
+
+.cafe {
+  display: flex;
+  flex-direction: column;
+  flex: 0 0 78%;
+  min-height: 300px;
+  padding: 24px;
+  border-radius: var(--radio);
+  scroll-snap-align: start;
+}
+
+.cafe h3 {
+  font-size: 2rem;
+  letter-spacing: -0.04em;
+}
+
+.cafe-origen {
+  font-weight: 600;
+  opacity: 0.75;
+}
+
+.cafe-notas {
+  margin-top: 8px;
+}
+
+.cafe-pie {
+  display: flex;
+  justify-content: space-between;
+  margin-top: auto;
+  padding-top: 16px;
+  border-top: 1px solid currentColor;
+  font-size: 0.95rem;
+}
+
+.cafe-precio {
+  font-weight: 700;
+}
+
+/* Cada café con un fondo distinto, todos dentro de la misma paleta */
+.cafe-cereza {
+  color: var(--sobre-cereza);
+  background-color: var(--cereza);
+}
+
+.cafe-oscuro {
+  color: var(--papel);
+  background-color: var(--tinta);
+}
+
+.cafe-claro {
+  background-color: var(--cereza-claro);
+}
+
+.cafe-borde {
+  border: 1px solid var(--borde);
+  background-color: var(--superficie);
+}
+
+/* Con ratón, la tarjeta sube un poco al pasar por encima.
+   Usa "translate" (no "transform") para no pisar la animación de aparición. */
+@media (hover: hover) and (pointer: fine) {
+  .cafe:hover {
+    translate: 0 -6px;
+  }
+}
+
+@media (min-width: 600px) {
+  .cafe {
+    flex-basis: 44%;
+  }
+}
+
+@media (min-width: 960px) {
+  .cafes {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    max-width: var(--ancho-maximo);
+    margin-inline: auto;
+    overflow: visible;
+  }
+
+  .cafe {
+    min-height: 340px;
+  }
+}
+
+/* ===== Del grano a la taza ===== */
+.seccion-proceso {
+  border-top: 1px solid var(--borde);
+}
+
+.proceso-rejilla {
+  display: grid;
+  gap: 32px;
+}
+
+.pasos {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: paso;
+}
+
+.pasos li {
+  display: grid;
+  grid-template-columns: 48px 1fr;
+  column-gap: 16px;
+  padding: 24px 0;
+  border-top: 1px solid var(--borde);
+  counter-increment: paso;
+}
+
+/* El número de cada paso lo pone CSS con un contador */
+.pasos li::before {
+  content: counter(paso);
+  grid-row: span 2;
+  font-size: 2rem;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--cereza);
+}
+
+.pasos p {
+  margin-top: 6px;
+  color: var(--tinta-suave);
+}
+
+@media (min-width: 900px) {
+  .proceso-rejilla {
+    grid-template-columns: 1fr 1.2fr;
+    gap: 64px;
+    align-items: start;
+  }
+
+  /* El título se queda fijo mientras pasan los pasos */
+  .proceso-titulo {
+    position: sticky;
+    top: calc(var(--alto-cabecera) + 32px);
+  }
+}
+
+/* ===== La barra ===== */
+.seccion-barra {
+  background-color: var(--superficie);
+}
+
+.carta {
+  display: grid;
+  gap: 40px;
+  margin-top: 16px;
+}
+
+.carta h3 {
+  margin-bottom: 12px;
+  color: var(--cereza);
+}
+
+.carta ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.carta li {
+  display: flex;
+  align-items: baseline;
+  padding: 10px 0;
+}
+
+/* Línea de puntos entre el nombre y el precio, como en una carta de bar */
+.carta li span:first-child {
+  display: flex;
+  flex: 1;
+  align-items: baseline;
+}
+
+.carta li span:first-child::after {
+  content: "";
+  flex: 1;
+  margin: 0 10px;
+  border-bottom: 2px dotted var(--borde);
+}
+
+.carta-precio {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (min-width: 720px) {
+  .carta {
+    grid-template-columns: 1fr 1fr;
+    gap: 56px;
+  }
+}
+
+/* ===== Cata y formulario ===== */
+.seccion-cata {
+  color: var(--texto-cata);
+  background-color: var(--fondo-cata);
+}
+
+.cata-rejilla {
+  display: grid;
+  gap: 40px;
+}
+
+.cata-texto p {
+  max-width: 44ch;
+  color: color-mix(in srgb, var(--texto-cata) 78%, transparent);
+}
+
+.cata-texto .cata-datos {
+  margin-top: 24px;
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--texto-cata);
+}
+
+.cata-datos strong {
+  font-size: 2.2rem;
+  color: var(--cereza-en-oscuro);
+}
+
+.formulario {
+  padding: 28px;
+  border-radius: var(--radio);
+  color: var(--tinta);
+  background-color: var(--superficie-formulario);
+}
+
+.formulario h3 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.campo {
+  display: grid;
+  gap: 6px;
+  margin: 0 0 16px;
+  padding: 0;
+  border: none;
+}
+
+.campo label,
+.campo legend {
+  padding: 0;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.campo input,
+.campo select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio-campo);
+  /* 16px como mínimo: con menos, el iPhone hace zoom al escribir */
+  font: inherit;
+  font-size: 1rem;
+  color: var(--tinta);
+  background-color: var(--papel);
+  transition: border-color 200ms ease;
+}
+
+.campo input[aria-invalid="true"] {
+  border-color: var(--error);
+}
+
+.campo-error {
+  min-height: 1.2em;
+  font-size: 0.85rem;
+  color: var(--error);
+}
+
+.campo-error:empty {
+  min-height: 0;
+}
+
+/* Pastillas para elegir número de personas */
+.pastillas {
+  display: flex;
+  gap: 8px;
+  margin-top: 6px;
+}
+
+.pastilla {
+  position: relative;
+  flex: 1;
+}
+
+/* El círculo de la opción se oculta pero sigue siendo accesible */
+.pastilla input {
+  position: absolute;
+  opacity: 0;
+}
+
+.pastilla span {
+  display: block;
+  padding: 10px 0;
+  border: 1px solid var(--borde);
+  border-radius: 999px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease,
+    transform 160ms var(--ease-out);
+}
+
+.pastilla:active span {
+  transform: scale(0.97);
+}
+
+.pastilla input:checked + span {
+  color: var(--sobre-cereza);
+  background-color: var(--cereza);
+  border-color: var(--cereza);
+}
+
+.pastilla input:focus-visible + span {
+  outline: 3px solid var(--cereza);
+  outline-offset: 3px;
+}
+
+/* El texto del botón cambia con un fundido con desenfoque, para que no "salte" */
+.boton-texto {
+  transition:
+    opacity 200ms ease,
+    filter 200ms ease;
+}
+
+.boton.cambiando .boton-texto {
+  opacity: 0;
+  filter: blur(4px);
+}
+
+.boton.cambiando {
+  pointer-events: none;
+}
+
+.form-estado {
+  margin-top: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.form-estado:empty {
+  margin: 0;
+}
+
+@media (min-width: 900px) {
+  .cata-rejilla {
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+}
+
+/* ===== Visítanos ===== */
+.visitanos-rejilla {
+  display: grid;
+  gap: 32px;
+}
+
+.visitanos-rejilla h3 {
+  margin-bottom: 8px;
+  color: var(--cereza);
+}
+
+.visitanos-rejilla p {
+  color: var(--tinta-suave);
+}
+
+@media (min-width: 720px) {
+  .visitanos-rejilla {
+    grid-template-columns: 1.2fr 1fr 1fr;
+    align-items: start;
+  }
+}
+
+/* ===== Pie ===== */
+.pie {
+  padding: 32px 0 max(32px, env(safe-area-inset-bottom));
+  border-top: 1px solid var(--borde);
+  font-size: 0.9rem;
+  color: var(--tinta-suave);
+}
+
+.pie-contenido {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px 24px;
+}
+
+/* ===== Menos movimiento =====
+   Si la persona lo ha pedido en su sistema, quitamos los desplazamientos
+   y dejamos solo fundidos suaves. La cinta se queda quieta. */
+@media (prefers-reduced-motion: reduce) {
+  @keyframes aparecer {
+    from {
+      opacity: 0;
+    }
+  }
+
+  @keyframes aparecer-pastilla {
+    from {
+      opacity: 0;
+    }
+  }
+
+  .js .revelar {
+    transform: none;
+  }
+
+  .cafe:hover {
+    translate: none;
+  }
+
+  .cinta-pista {
+    animation: none;
+  }
+
+  .boton:active,
+  .pastilla:active span {
+    transform: none;
+  }
+}

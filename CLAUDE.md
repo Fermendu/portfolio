@@ -20,8 +20,6 @@ Publicada con GitHub Pages: https://fermendu.github.io/portfolio/
 ## Cómo quiero trabajar
 - Estoy aprendiendo: explícame qué cambias y por qué, en lenguaje sencillo.
 - Cambios pequeños y de uno en uno.
-- Si algo lo puedo escribir yo, dame pistas en vez de la solución.
-- No hagas commits ni push: los hago yo desde Sourcetree.
 
 ## Hoja de ruta
 - Cada proyecto vive en `proyectos/<nombre>/` con su `index.html`, y su CSS y JS propios.

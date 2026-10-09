@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Orilla · Café de especialidad en Salamanca</title>
+  <meta name="description" content="Landing de práctica para una cafetería de especialidad inventada. Proyecto del portfolio de Mendu.">
+  <!-- Es una cafetería inventada: pedimos a los buscadores que no la muestren -->
+  <meta name="robots" content="noindex">
+  <!-- Marcamos que hay JS antes de pintar, para que las animaciones de scroll no parpadeen -->
+  <script>document.documentElement.classList.add("js");</script>
+  <!-- Color de la barra del navegador en el móvil, claro u oscuro según el sistema -->
+  <meta name="theme-color" content="#f2f2ee" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#141312" media="(prefers-color-scheme: dark)">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap">
+  <link rel="stylesheet" href="orilla.css">
+  <link rel="icon" href="../../../favicon.svg" type="image/svg+xml">
+  <script src="orilla.js" defer></script>
+</head>
+<body>
+  <!-- Aviso de que es un proyecto de práctica -->
+  <div class="aviso-practica">
+    Cafetería inventada: proyecto de práctica de Mendu.
+    <a href="../../../index.html#proyectos">← Volver al portfolio</a>
+  </div>
+
+  <!-- Marcador invisible: cuando sale de pantalla, la cabecera se vuelve sólida -->
+  <div class="marcador-cabecera" aria-hidden="true"></div>
+
+  <header class="cabecera">
+    <a href="#inicio" class="marca" aria-label="Orilla, ir al inicio">
+      orilla<span class="marca-punto" aria-hidden="true">.</span>
+    </a>
+    <nav class="menu" aria-label="Secciones">
+      <a href="#cafes">Cafés</a>
+      <a href="#barra">La barra</a>
+      <a href="#visitanos">Visítanos</a>
+    </nav>
+    <a href="#cata" class="boton boton-pequeno">Reserva tu cata</a>
+  </header>
+
+  <main>
+    <!-- ===== Portada: texto a la izquierda, café de la semana a la derecha ===== -->
+    <section id="inicio" class="portada">
+      <div class="contenedor portada-rejilla">
+        <div class="portada-texto">
+          <h1 class="entrada" style="--i: 0">El café es una fruta. <em>Aquí sabe a ella.</em></h1>
+          <p class="entradilla entrada" style="--i: 1">Tostamos cada martes en lotes pequeños, junto al Tormes. Café de origen para tomar en barra o llevarte a casa.</p>
+          <div class="portada-botones entrada" style="--i: 2">
+            <a href="#cata" class="boton">Reserva tu cata</a>
+            <a href="#cafes" class="boton boton-secundario">Ver los cafés</a>
+          </div>
+        </div>
+
+        <!-- Ficha del café de la semana -->
+        <article class="ficha-semana entrada" style="--i: 3" aria-labelledby="titulo-semana">
+          <p class="ficha-etiqueta">Café de la semana</p>
+          <h2 id="titulo-semana">Guji, Etiopía</h2>
+          <dl class="ficha-datos">
+            <div><dt>Proceso</dt><dd>Lavado</dd></div>
+            <div><dt>Altura</dt><dd>2.140 m</dd></div>
+            <div><dt>Tueste</dt><dd>Claro</dd></div>
+          </dl>
+          <p class="ficha-notas-titulo">A qué sabe</p>
+          <ul class="notas">
+            <li style="--i: 0">Bergamota</li>
+            <li style="--i: 1">Melocotón</li>
+            <li style="--i: 2">Té negro</li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== Cinta de orígenes que se desplaza sola ===== -->
+    <div class="cinta" aria-label="Orígenes con los que trabajamos: Etiopía, Colombia, Kenia, Brasil, Guatemala y Ruanda">
+      <div class="cinta-pista" aria-hidden="true">
+        <!-- La lista va dos veces para que el bucle no tenga cortes -->
+        <ul>
+          <li>Etiopía</li><li>Colombia</li><li>Kenia</li><li>Brasil</li><li>Guatemala</li><li>Ruanda</li>
+        </ul>
+        <ul>
+          <li>Etiopía</li><li>Colombia</li><li>Kenia</li><li>Brasil</li><li>Guatemala</li><li>Ruanda</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ===== Cafés en grano: fila con desplazamiento lateral ===== -->
+    <section id="cafes" class="seccion">
+      <div class="contenedor">
+        <h2 class="revelar">Cafés en grano</h2>
+        <p class="seccion-intro revelar">Bolsas de 250 g, tostadas la semana en que te llegan. Te lo molemos si nos dices cómo lo preparas.</p>
+      </div>
+
+      <ul class="cafes" aria-label="Cafés disponibles">
+        <li class="cafe cafe-cereza revelar" style="--i: 0">
+          <p class="cafe-origen">Etiopía</p>
+          <h3>Guji</h3>
+          <p class="cafe-notas">Bergamota, melocotón, té negro</p>
+          <p class="cafe-pie"><span>Lavado</span><span class="cafe-precio">14,50 €</span></p>
+        </li>
+        <li class="cafe cafe-oscuro revelar" style="--i: 1">
+          <p class="cafe-origen">Colombia</p>
+          <h3>Huila</h3>
+          <p class="cafe-notas">Panela, cereza madura, cacao</p>
+          <p class="cafe-pie"><span>Honey</span><span class="cafe-precio">13,20 €</span></p>
+        </li>
+        <li class="cafe cafe-claro revelar" style="--i: 2">
+          <p class="cafe-origen">Kenia</p>
+          <h3>Nyeri</h3>
+          <p class="cafe-notas">Grosella negra, pomelo, caña</p>
+          <p class="cafe-pie"><span>Lavado</span><span class="cafe-precio">16,80 €</span></p>
+        </li>
+        <li class="cafe cafe-borde revelar" style="--i: 3">
+          <p class="cafe-origen">Brasil</p>
+          <h3>Mogiana</h3>
+          <p class="cafe-notas">Avellana, chocolate con leche</p>
+          <p class="cafe-pie"><span>Natural</span><span class="cafe-precio">11,90 €</span></p>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ===== Del grano a la taza: título fijo y pasos que van apareciendo ===== -->
+    <section class="seccion seccion-proceso">
+      <div class="contenedor proceso-rejilla">
+        <h2 class="proceso-titulo revelar">Del grano a la taza, sin atajos.</h2>
+        <ol class="pasos">
+          <li class="revelar">
+            <h3>Compramos a quien cultiva</h3>
+            <p>Trabajamos con cinco fincas y sabemos lo que cobra cada una. Repetimos con ellas cada cosecha.</p>
+          </li>
+          <li class="revelar">
+            <h3>Tostamos poco y a menudo</h3>
+            <p>Lotes de 6 kg los martes. Así ningún café pasa más de tres semanas en la estantería.</p>
+          </li>
+          <li class="revelar">
+            <h3>Lo probamos antes que tú</h3>
+            <p>Cada lote pasa por una cata en mesa. Si no está a la altura, se queda para el café de casa.</p>
+          </li>
+          <li class="revelar">
+            <h3>Te contamos cómo prepararlo</h3>
+            <p>Gramos, molienda y temperatura en cada bolsa. Y si tienes dudas, pregúntanos en la barra.</p>
+          </li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- ===== La barra: carta con precios ===== -->
+    <section id="barra" class="seccion seccion-barra">
+      <div class="contenedor contenedor-estrecho">
+        <h2 class="revelar">La barra</h2>
+        <div class="carta">
+          <div class="carta-grupo revelar">
+            <h3>Espresso</h3>
+            <ul>
+              <li><span>Espresso</span><span class="carta-precio">1,60 €</span></li>
+              <li><span>Cortado</span><span class="carta-precio">1,80 €</span></li>
+              <li><span>Flat white</span><span class="carta-precio">2,90 €</span></li>
+              <li><span>Con leche de avena</span><span class="carta-precio">+0,40 €</span></li>
+            </ul>
+          </div>
+          <div class="carta-grupo revelar">
+            <h3>Filtro</h3>
+            <ul>
+              <li><span>V60 del día</span><span class="carta-precio">3,40 €</span></li>
+              <li><span>Chemex para dos</span><span class="carta-precio">5,80 €</span></li>
+              <li><span>Cold brew</span><span class="carta-precio">3,20 €</span></li>
+              <li><span>Tónica con espresso</span><span class="carta-precio">3,60 €</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== Reserva de cata: formulario ===== -->
+    <section id="cata" class="seccion seccion-cata">
+      <div class="contenedor cata-rejilla">
+        <div class="cata-texto revelar">
+          <h2>Cata de los sábados</h2>
+          <p>Una hora probando cuatro cafés en mesa, como lo hacemos nosotros. Sin saber nada de café, que para eso estamos.</p>
+          <p class="cata-datos"><strong>18 €</strong> por persona<br>Sábados a las 11:00<br>8 plazas</p>
+        </div>
+
+        <!-- Formulario de reserva (de demostración) -->
+        <form class="formulario revelar" aria-labelledby="titulo-formulario" novalidate>
+          <h3 id="titulo-formulario">Reserva tu plaza</h3>
+
+          <div class="campo">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="nombre" name="nombre" autocomplete="given-name" required>
+            <p class="campo-error" id="error-nombre"></p>
+          </div>
+
+          <div class="campo">
+            <label for="correo">Correo electrónico</label>
+            <input type="email" id="correo" name="correo" autocomplete="email" inputmode="email" required>
+            <p class="campo-error" id="error-correo"></p>
+          </div>
+
+          <div class="campo">
+            <label for="fecha">Sábado</label>
+            <select id="fecha" name="fecha">
+              <option>17 de octubre</option>
+              <option>24 de octubre</option>
+              <option>31 de octubre</option>
+              <option>7 de noviembre</option>
+            </select>
+          </div>
+
+          <!-- Botones de opción con forma de pastilla -->
+          <fieldset class="campo">
+            <legend>Personas</legend>
+            <div class="pastillas">
+              <label class="pastilla"><input type="radio" name="personas" value="1" checked><span>1</span></label>
+              <label class="pastilla"><input type="radio" name="personas" value="2"><span>2</span></label>
+              <label class="pastilla"><input type="radio" name="personas" value="3"><span>3</span></label>
+              <label class="pastilla"><input type="radio" name="personas" value="4"><span>4</span></label>
+            </div>
+          </fieldset>
+
+          <button type="submit" class="boton boton-ancho">
+            <span class="boton-texto">Reservar plaza</span>
+          </button>
+          <p class="form-estado" role="status"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- ===== Dónde estamos ===== -->
+    <section id="visitanos" class="seccion">
+      <div class="contenedor visitanos-rejilla">
+        <h2 class="revelar">Visítanos</h2>
+        <div class="revelar">
+          <h3>Dirección</h3>
+          <p>Paseo de la Ribera, 27<br>37008 Salamanca</p>
+        </div>
+        <div class="revelar">
+          <h3>Horario</h3>
+          <p>De martes a viernes, de 8:30 a 19:00<br>Sábados y domingos, de 9:30 a 14:30</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="pie">
+    <div class="contenedor pie-contenido">
+      <p class="marca">orilla<span class="marca-punto" aria-hidden="true">.</span></p>
+      <p>Cafetería inventada para practicar. Hecha por <a href="../../../index.html">Mendu</a>.</p>
+    </div>
+  </footer>
+</body>
+</html>
