@@ -232,11 +232,105 @@ function pintarMenu() {
     .join("");
 
   vista.innerHTML = `
-    <div class="menu-barra">
-      <p class="nota">Toca una comida para cambiarla.</p>
-      <button type="button" class="boton-secundario" data-accion="proponer">Proponer otra semana</button>
-    </div>
-    <div class="dias">${dias}</div>`;
+    <section class="resumen-semana" aria-labelledby="titulo-resumen">
+      <h2 id="titulo-resumen" class="subtitulo-vista">La semana de un vistazo</h2>
+      ${tablaSemana(hoy)}
+      ${tablaSemanaMovil(hoy)}
+    </section>
+
+    <section aria-labelledby="titulo-cambiar">
+      <div class="menu-barra">
+        <h2 id="titulo-cambiar" class="subtitulo-vista">Cambiar comidas</h2>
+        <button type="button" class="boton-secundario" data-accion="proponer">Proponer otra semana</button>
+      </div>
+      <p class="nota">Toca una comida (aquí o en la tabla) para cambiarla.</p>
+      <div class="dias">${dias}</div>
+    </section>`;
+}
+
+// ---------- Tabla resumen de la semana ----------
+// Hay dos versiones de la misma tabla y el CSS enseña una u otra:
+// · pantallas anchas: días en columnas, comida y cena en filas (como un menú en papel)
+// · móvil: días en filas, comida y cena en columnas (7 columnas no caben en un móvil)
+
+function celdaResumen(d, momento) {
+  const hueco = estado.menu.dias[d][momento];
+  const piezas = hueco.platos.map((c) => estado.piezas.get(c)).filter(Boolean);
+
+  let contenido;
+  if (hueco.estado === "fuera") {
+    contenido = `<span class="celda-apagada">Fuera</span>`;
+  } else if (!piezas.length) {
+    contenido = `<span class="celda-apagada">—</span>`;
+  } else {
+    contenido = `<span class="celda-plato">${esc(nombreCorto(piezas[0].nombre))}</span>`;
+    if (piezas.length > 1) {
+      contenido += `<span class="celda-con">${piezas.slice(1).map((p) => esc(nombreCorto(p.nombre).toLowerCase())).join(", ")}</span>`;
+    }
+  }
+
+  const marcas = [];
+  if (hueco.estado === "sobras") marcas.push("Sobras");
+  if (hueco.estado !== "fuera" && hueco.personas === 1) marcas.push("Solo yo");
+  if (hueco.estado !== "fuera" && piezas.some((p) => p.origen === "mario")) marcas.push("Mario");
+  const avisos = avisosHueco(estado.menu, d, momento, estado.piezas);
+
+  const etiqueta = `${NOMBRES_DIAS[d]}, ${momento}: ${hueco.estado === "fuera" ? "fuera de casa" : piezas.map((p) => p.nombre).join(", ") || "sin plato"}. Cambiar`;
+
+  return `
+    <button type="button" class="celda-boton" data-dia="${d}" data-momento="${momento}" aria-label="${esc(etiqueta)}">
+      ${contenido}
+      ${marcas.length ? `<span class="celda-marcas">${marcas.map((m) => `<span class="marca${m === "Mario" ? " marca-mario" : ""}">${m}</span>`).join("")}</span>` : ""}
+      ${avisos.length ? `<span class="celda-aviso">${esc(avisos.join(". "))}</span>` : ""}
+    </button>`;
+}
+
+function tablaSemana(hoy) {
+  const cabecera = estado.menu.dias
+    .map((_, d) => {
+      const fecha = sumarDias(estado.lunes, d);
+      return `<th scope="col"${fecha === hoy ? ` class="col-hoy" aria-current="date"` : ""}>${NOMBRES_DIAS[d]}<span class="th-fecha">${fechaCorta(fecha)}</span></th>`;
+    })
+    .join("");
+
+  const filas = MOMENTOS.map((momento) => {
+    const celdas = estado.menu.dias
+      .map((_, d) => `<td${sumarDias(estado.lunes, d) === hoy ? ` class="col-hoy"` : ""}>${celdaResumen(d, momento)}</td>`)
+      .join("");
+    return `<tr><th scope="row">${momento === "comida" ? "Comida" : "Cena"}</th>${celdas}</tr>`;
+  }).join("");
+
+  return `
+    <div class="tabla-semana-marco tabla-ancha">
+      <table class="tabla-semana">
+        <caption class="visualmente-oculto">Menú de la semana del ${fechaCorta(estado.lunes)}</caption>
+        <thead><tr><td></td>${cabecera}</tr></thead>
+        <tbody>${filas}</tbody>
+      </table>
+    </div>`;
+}
+
+function tablaSemanaMovil(hoy) {
+  const filas = estado.menu.dias
+    .map((_, d) => {
+      const fecha = sumarDias(estado.lunes, d);
+      const esHoy = fecha === hoy;
+      return `
+        <tr${esHoy ? ` class="fila-hoy"` : ""}>
+          <th scope="row"${esHoy ? ` aria-current="date"` : ""}>${NOMBRES_DIAS[d].slice(0, 3)}<span class="th-fecha">${fecha.slice(8).replace(/^0/, "")}</span></th>
+          ${MOMENTOS.map((momento) => `<td>${celdaResumen(d, momento)}</td>`).join("")}
+        </tr>`;
+    })
+    .join("");
+
+  return `
+    <div class="tabla-semana-marco tabla-movil">
+      <table class="tabla-semana">
+        <caption class="visualmente-oculto">Menú de la semana del ${fechaCorta(estado.lunes)}</caption>
+        <thead><tr><td></td><th scope="col">Comida</th><th scope="col">Cena</th></tr></thead>
+        <tbody>${filas}</tbody>
+      </table>
+    </div>`;
 }
 
 function botonHueco(d, momento) {
