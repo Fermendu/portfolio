@@ -8,5 +8,5 @@
 // leer y escribir a los usuarios de la tabla "miembros".
 // La que NUNCA debe aparecer aquí es la "secret" (sb_secret_…).
 
-export const SUPABASE_URL = "https://TU-PROYECTO.supabase.co";
-export const SUPABASE_KEY = "sb_publishable_PEGA_AQUI_TU_CLAVE";
+export const SUPABASE_URL = "https://btxqsslogpempmgjypqr.supabase.co";
+export const SUPABASE_KEY = "sb_publishable_lMSLH6SdvPQvMaHMo30VDw_bbBI8kLx";
