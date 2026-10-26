@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zona privada · Mendu</title>
+  <meta name="description" content="Zona privada del portfolio de Mendu: menú semanal y lista de la compra, con inicio de sesión y base de datos.">
+  <!-- Que los buscadores no la indexen: no hay nada que ver sin sesión -->
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="stylesheet" href="../../css/styles.css">
+  <link rel="stylesheet" href="zona-privada.css">
+  <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="../../apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="Menú">
+  <!-- type="module" permite usar import/export entre archivos JS sin herramientas extra -->
+  <script type="module" src="js/app.js"></script>
+</head>
+<body>
+  <header class="cabecera">
+    <a href="../../index.html" class="logo" aria-label="Mendu, ir al inicio">
+      <span class="logo-prompt" aria-hidden="true">&gt;</span>mendu<span class="logo-cursor" aria-hidden="true"></span>
+    </a>
+    <nav>
+      <ul class="menu">
+        <li><a href="../../index.html#proyectos">← Proyectos</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <!-- Mientras se comprueba si ya hay sesión -->
+    <p id="cargando" class="seccion cargando" role="status">Cargando…</p>
+
+    <!-- ===== Inicio de sesión ===== -->
+    <section id="acceso" class="seccion acceso" hidden>
+      <span class="estado estado-privado">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2zM9 7a3 3 0 0 1 6 0v2H9V7zm4 9.7V19h-2v-2.3a2 2 0 1 1 2 0z"/></svg>
+        Privado
+      </span>
+      <h1>Zona privada</h1>
+      <p>Aquí está nuestro menú de la semana y la lista de la compra. Para verlo hay que iniciar sesión: los datos viven en una base de datos que solo se los da a sus dueños.</p>
+
+      <form id="form-acceso" class="formulario acceso-formulario">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" autocomplete="username" required>
+
+        <label for="contrasena">Contraseña</label>
+        <input type="password" id="contrasena" name="contrasena" autocomplete="current-password" required>
+
+        <button type="submit" class="boton">Entrar</button>
+        <p id="acceso-estado" class="form-estado" role="status"></p>
+      </form>
+    </section>
+
+    <!-- ===== Panel (solo con sesión) ===== -->
+    <section id="panel" class="panel" hidden>
+      <div class="panel-cabecera">
+        <p class="saludo">Hola, <span id="nombre-miembro"></span></p>
+        <div class="semana">
+          <button type="button" id="semana-anterior" class="boton-icono" aria-label="Semana anterior">‹</button>
+          <h1 id="titulo-semana" class="semana-titulo"></h1>
+          <button type="button" id="semana-siguiente" class="boton-icono" aria-label="Semana siguiente">›</button>
+        </div>
+        <button type="button" id="ir-a-hoy" class="enlace-boton" hidden>Volver a esta semana</button>
+
+        <div class="pestanas" role="tablist" aria-label="Secciones">
+          <button type="button" role="tab" id="pestana-menu" aria-controls="vista-menu" aria-selected="true">Menú</button>
+          <button type="button" role="tab" id="pestana-compra" aria-controls="vista-compra" aria-selected="false" tabindex="-1">
+            Compra <span id="contador-compra" class="contador"></span>
+          </button>
+          <button type="button" role="tab" id="pestana-ajustes" aria-controls="vista-ajustes" aria-selected="false" tabindex="-1">Ajustes</button>
+        </div>
+      </div>
+
+      <div id="vista-menu" class="vista" role="tabpanel" aria-labelledby="pestana-menu"></div>
+      <div id="vista-compra" class="vista" role="tabpanel" aria-labelledby="pestana-compra" hidden></div>
+      <div id="vista-ajustes" class="vista" role="tabpanel" aria-labelledby="pestana-ajustes" hidden></div>
+    </section>
+  </main>
+
+  <!-- Ventana para cambiar una comida o cena -->
+  <dialog id="dialogo-hueco" class="dialogo" aria-labelledby="dialogo-titulo">
+    <div class="dialogo-cabecera">
+      <h2 id="dialogo-titulo"></h2>
+      <button type="button" class="boton-icono" data-cerrar aria-label="Cerrar">×</button>
+    </div>
+    <div id="dialogo-cuerpo" class="dialogo-cuerpo"></div>
+    <div class="dialogo-pie">
+      <button type="button" class="boton" data-cerrar>Hecho</button>
+    </div>
+  </dialog>
+
+  <!-- Mensajes cortos: "Guardado", errores… -->
+  <p id="aviso" class="aviso" role="status" aria-live="polite"></p>
+
+  <footer class="pie">
+    <p>&copy; 2026 Fernando "Mendu"</p>
+  </footer>
+</body>
+</html>
