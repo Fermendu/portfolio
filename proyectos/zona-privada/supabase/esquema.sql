@@ -78,6 +78,21 @@ create policy "solo miembros"
   with check (public.es_miembro());
 
 
+-- ---------- Permisos ----------
+-- Se dan a mano por si el proyecto se creó con "Exponer automáticamente
+-- nuevas tablas" desactivado (lo recomendado). Solo para "authenticated"
+-- (con sesión); "anon" (sin sesión) no recibe nada.
+-- Aun con permisos, las reglas RLS de arriba deciden qué filas se ven.
+grant usage on schema public to authenticated;
+
+revoke all on public.miembros, public.documentos, public.semanas from anon;
+grant select on public.miembros to authenticated;
+grant select, insert, update, delete on public.documentos, public.semanas to authenticated;
+
+revoke execute on function public.es_miembro() from public, anon;
+grant execute on function public.es_miembro() to authenticated;
+
+
 -- =====================================================================
 -- ÚLTIMO PASO (después de crear vuestros dos usuarios en Authentication):
 -- copia estas líneas en otra consulta, pon vuestros emails y ejecútala.
