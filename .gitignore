@@ -1,0 +1,5 @@
+# Datos personales: nunca al repo (es público)
+privado/
+catalogo-platos.json
+mario-web.json
+*.privado.*
