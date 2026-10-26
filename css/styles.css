@@ -195,6 +195,15 @@ a {
   text-decoration: none;
 }
 
+/* Candado de la tarjeta "Zona privada" */
+.icono-candado {
+  width: 0.9em;
+  height: 0.9em;
+  margin-right: 4px;
+  fill: var(--color-principal);
+  vertical-align: -0.05em;
+}
+
 .tarjeta-enlace::after {
   content: "";
   position: absolute;

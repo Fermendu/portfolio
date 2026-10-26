@@ -1,0 +1,808 @@
+/* Estilos propios de la zona privada.
+   Los generales (colores, cabecera, botones, formulario…) vienen de ../../css/styles.css */
+
+:root {
+  --color-mario: #9a5b00;
+  --color-mario-suave: #fbf0dc;
+  --color-error-suave: #fbe9e7;
+  --radio: 12px;
+}
+
+/* Texto solo para lectores de pantalla */
+.visualmente-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.nota {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-suave);
+}
+
+/* La cabecera fija siempre por encima de lo que pasa por debajo al hacer scroll */
+.cabecera {
+  z-index: 5;
+}
+
+.cargando {
+  text-align: center;
+  color: var(--color-suave);
+}
+
+/* ===== Botones extra ===== */
+.boton {
+  border: none;
+  font: inherit;
+  cursor: pointer;
+}
+
+.boton-secundario {
+  display: inline-block;
+  padding: 8px 18px;
+  border: 1px solid var(--color-principal);
+  border-radius: 999px;
+  background-color: var(--color-tarjeta);
+  color: var(--color-principal);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.boton-secundario:hover {
+  background-color: var(--color-principal-suave);
+}
+
+.boton-icono {
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--color-borde);
+  border-radius: 50%;
+  background-color: var(--color-tarjeta);
+  color: var(--color-texto);
+  font-size: 1.4rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.enlace-boton {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--color-principal);
+  font: inherit;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.boton:focus-visible,
+.boton-secundario:focus-visible,
+.boton-icono:focus-visible,
+.enlace-boton:focus-visible,
+.boton-archivo:focus-within {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 3px;
+}
+
+/* ===== Acceso ===== */
+.acceso h1 {
+  margin: 12px 0 4px;
+}
+
+.acceso > p {
+  color: var(--color-suave);
+}
+
+.acceso-formulario {
+  max-width: 420px;
+}
+
+.acceso-formulario .boton {
+  margin-top: 16px;
+  align-self: flex-start;
+}
+
+.estado-privado {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.estado-privado svg {
+  width: 14px;
+  height: 14px;
+  fill: currentColor;
+}
+
+/* ===== Panel ===== */
+.panel {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 16px 16px 48px;
+}
+
+.panel-cabecera {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.saludo {
+  margin: 0;
+  color: var(--color-suave);
+}
+
+.semana {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.semana-titulo {
+  margin: 0;
+  min-width: 10ch;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+/* Pestañas: Menú · Compra · Ajustes */
+.pestanas {
+  display: flex;
+  width: 100%;
+  max-width: 420px;
+  margin-top: 8px;
+  padding: 4px;
+  border-radius: 999px;
+  background-color: var(--color-principal-suave);
+}
+
+.pestanas button {
+  flex: 1;
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 4px;
+  border: none;
+  border-radius: 999px;
+  background: none;
+  color: var(--color-principal);
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.pestanas button[aria-selected="true"] {
+  background-color: var(--color-tarjeta);
+  color: var(--color-texto);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+.pestanas button:focus-visible {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 1px;
+}
+
+.contador:not(:empty) {
+  min-width: 1.5em;
+  padding: 0 6px;
+  border-radius: 999px;
+  background-color: var(--color-principal);
+  color: #ffffff;
+  font-size: 0.75rem;
+  line-height: 1.5;
+}
+
+.vacio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 32px 16px;
+  border: 2px dashed var(--color-borde);
+  border-radius: var(--radio);
+  text-align: center;
+}
+
+.vacio p {
+  margin: 0;
+}
+
+/* ===== Menú ===== */
+.menu-barra {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.dias {
+  display: grid;
+  gap: 12px;
+}
+
+/* En pantallas anchas, dos columnas de días */
+@media (min-width: 700px) {
+  .dias {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.dia {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background-color: var(--color-tarjeta);
+}
+
+.dia-hoy {
+  border-color: var(--color-principal);
+  box-shadow: 0 0 0 1px var(--color-principal);
+}
+
+.dia-titulo {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.dia-fecha {
+  font-weight: normal;
+  color: var(--color-suave);
+}
+
+/* Cada comida o cena es un botón grande, fácil de pulsar con el pulgar */
+.hueco {
+  display: grid;
+  grid-template-columns: 4.5em 1fr;
+  gap: 2px 10px;
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.hueco:hover {
+  border-color: var(--color-principal);
+}
+
+.hueco:focus-visible {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 2px;
+}
+
+.hueco-momento {
+  padding-top: 1px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  color: var(--color-suave);
+}
+
+.hueco-texto {
+  display: flex;
+  flex-direction: column;
+}
+
+.hueco-principal {
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.hueco-con {
+  font-size: 0.9rem;
+  color: var(--color-suave);
+  line-height: 1.35;
+}
+
+.hueco-apagado {
+  font-weight: normal;
+  font-style: italic;
+  color: var(--color-suave);
+}
+
+.hueco-chips {
+  grid-column: 2;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.hueco-fuera {
+  background-color: var(--color-tarjeta);
+  border-style: dashed;
+}
+
+/* Etiquetas pequeñas: Mario, Sobras, Solo yo, avisos… */
+.chip {
+  display: inline-block;
+  padding: 1px 8px;
+  border-radius: 999px;
+  background-color: var(--color-principal-suave);
+  color: var(--color-principal);
+  font-size: 0.75rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.chip-mario {
+  background-color: var(--color-mario-suave);
+  color: var(--color-mario);
+}
+
+.chip-aviso {
+  background-color: var(--color-error-suave);
+  color: var(--color-error);
+  white-space: normal;
+}
+
+.chip-hoy {
+  background-color: var(--color-principal);
+  color: #ffffff;
+}
+
+/* ===== Ventana de una comida ===== */
+.dialogo {
+  width: min(560px, 100%);
+  max-height: 90vh;
+  padding: 0;
+  border: none;
+  border-radius: 16px;
+  color: var(--color-texto);
+  background-color: var(--color-tarjeta);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+}
+
+.dialogo[open] {
+  display: flex;
+  flex-direction: column;
+}
+
+.dialogo::backdrop {
+  background-color: rgba(31, 45, 39, 0.5);
+}
+
+/* En el móvil sale desde abajo, como una hoja */
+@media (max-width: 599px) {
+  .dialogo {
+    margin: auto 0 0;
+    max-width: 100%;
+    border-radius: 16px 16px 0 0;
+  }
+}
+
+.dialogo-cabecera {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.dialogo-cabecera h2 {
+  margin: 0;
+  font-size: 1.15rem;
+}
+
+.dialogo-cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  overflow-y: auto;
+}
+
+.dialogo-pie {
+  display: flex;
+  justify-content: flex-end;
+  padding: 12px 16px;
+  border-top: 1px solid var(--color-borde);
+}
+
+.dialogo-pie .boton {
+  margin-top: 0;
+}
+
+.dialogo-subtitulo {
+  margin: 8px 0 0;
+  font-size: 1rem;
+}
+
+.dialogo-cuerpo .boton-secundario {
+  align-self: flex-start;
+}
+
+.etiqueta {
+  margin-top: 6px;
+  font-weight: 600;
+}
+
+.dialogo select,
+.form-extra input,
+.form-extra select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  background-color: var(--color-fondo);
+  color: var(--color-texto);
+  font: inherit;
+}
+
+.dialogo select:focus-visible,
+.form-extra input:focus-visible,
+.form-extra select:focus-visible {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 1px;
+}
+
+/* Botones de opción en fila: Cocinar | Sobras | Fuera */
+.segmentado {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+.segmentado legend {
+  width: 100%;
+  margin-bottom: 6px;
+  padding: 0;
+  font-weight: 600;
+}
+
+.segmentado:disabled {
+  opacity: 0.5;
+}
+
+.segmento {
+  flex: 1;
+  position: relative;
+}
+
+.segmento input {
+  position: absolute;
+  opacity: 0;
+}
+
+.segmento span {
+  display: block;
+  padding: 8px;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  text-align: center;
+  cursor: pointer;
+}
+
+.segmento input:checked + span {
+  border-color: var(--color-principal);
+  background-color: var(--color-principal-suave);
+  color: var(--color-principal);
+  font-weight: 600;
+}
+
+.segmento input:focus-visible + span {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 2px;
+}
+
+.lista-platos {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.plato {
+  padding: 10px 12px;
+  border: 1px solid var(--color-borde);
+  border-radius: 10px;
+}
+
+.plato-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.plato-nombre {
+  font-weight: 600;
+}
+
+.plato details {
+  margin-top: 4px;
+  font-size: 0.9rem;
+}
+
+.plato summary {
+  color: var(--color-principal);
+  cursor: pointer;
+}
+
+.plato details[open] {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.lista-simple {
+  margin: 0;
+  padding-left: 1.2rem;
+}
+
+.aviso-hueco {
+  margin: 0;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: var(--color-error-suave);
+  color: var(--color-error);
+  font-size: 0.9rem;
+}
+
+/* ===== Compra ===== */
+.compra-barra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.compra-barra .boton {
+  margin-top: 0;
+}
+
+.compra-resumen {
+  margin: 0;
+}
+
+.form-extra {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.form-extra input {
+  grid-column: 1 / -1;
+}
+
+.form-extra .boton {
+  margin-top: 0;
+}
+
+@media (min-width: 600px) {
+  .form-extra {
+    grid-template-columns: 1fr 12rem auto;
+  }
+
+  .form-extra input {
+    grid-column: auto;
+  }
+}
+
+.seccion-compra {
+  margin-bottom: 16px;
+}
+
+.seccion-compra h2 {
+  margin: 0 0 6px;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--color-suave);
+}
+
+.items {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background-color: var(--color-tarjeta);
+  overflow: hidden;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 8px 4px 0;
+}
+
+.item + .item {
+  border-top: 1px solid var(--color-borde);
+}
+
+.item-marca {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  min-height: 44px;
+  padding: 8px 0 8px 12px;
+  cursor: pointer;
+}
+
+.item-marca input {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  accent-color: var(--color-principal);
+}
+
+.item-texto {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0 8px;
+}
+
+.item-nombre {
+  font-weight: 600;
+}
+
+.item-cantidad {
+  color: var(--color-principal);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.item-detalle {
+  width: 100%;
+  font-size: 0.8rem;
+  color: var(--color-suave);
+}
+
+.item-tachado .item-nombre,
+.item-tachado .item-cantidad {
+  text-decoration: line-through;
+  color: var(--color-suave);
+}
+
+.item-tachado .item-detalle {
+  display: none;
+}
+
+.item-en-casa .item-texto {
+  flex: 1;
+  padding: 10px 0 10px 12px;
+}
+
+.item-boton {
+  flex-shrink: 0;
+  padding: 6px 10px;
+  border: 1px solid var(--color-borde);
+  border-radius: 999px;
+  background-color: var(--color-tarjeta);
+  color: var(--color-suave);
+  font: inherit;
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.item-boton:hover {
+  color: var(--color-principal);
+  border-color: var(--color-principal);
+}
+
+.item-boton:focus-visible {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 2px;
+}
+
+.seccion-basicos .items {
+  border-style: dashed;
+}
+
+.desplegable {
+  margin-bottom: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background-color: var(--color-tarjeta);
+}
+
+.desplegable summary {
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.desplegable[open] summary {
+  margin-bottom: 8px;
+}
+
+.desplegable .items {
+  border: none;
+}
+
+/* ===== Ajustes ===== */
+.ajuste {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 16px;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background-color: var(--color-tarjeta);
+}
+
+.ajuste h2 {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.ajuste p {
+  margin: 0;
+}
+
+.boton-archivo {
+  position: relative;
+}
+
+/* ===== Aviso flotante ("Guardado", errores) ===== */
+.aviso {
+  position: fixed;
+  left: 50%;
+  bottom: 24px;
+  z-index: 10;
+  max-width: calc(100% - 32px);
+  margin: 0;
+  padding: 10px 18px;
+  border-radius: 999px;
+  background-color: var(--color-texto);
+  color: #ffffff;
+  font-size: 0.95rem;
+  text-align: center;
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+
+.aviso-visible {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.aviso-error {
+  background-color: var(--color-error);
+  border-radius: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aviso {
+    transition: none;
+  }
+}
