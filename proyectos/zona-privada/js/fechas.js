@@ -44,3 +44,11 @@ export function semanasEntre(lunesA, lunesB) {
   const ms = deTexto(lunesB) - deTexto(lunesA);
   return Math.round(ms / (7 * 24 * 60 * 60 * 1000));
 }
+
+const MESES = ["enero", "febrero", "marzo", "abril", "mayo", "junio", "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"];
+
+// "2026-10-26" → "26 de octubre"
+export function fechaLarga(texto) {
+  const fecha = deTexto(texto);
+  return `${fecha.getDate()} de ${MESES[fecha.getMonth()]}`;
+}

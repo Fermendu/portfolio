@@ -1,6 +1,6 @@
 # Zona privada: menú semanal y lista de la compra
 
-Página con inicio de sesión para dos personas. La web propone el menú de la semana a partir de un catálogo de platos, se puede retocar y la lista de la compra se recalcula sola.
+Página con inicio de sesión para dos personas, con estilo de cuaderno de cocina (letras Fraunces, Work Sans y Caveat de Google Fonts, y un boceto a lápiz por día). La web propone el menú de la semana a partir de un catálogo de platos, se puede retocar y la lista de la compra se recalcula sola.
 
 ## Cómo se protege
 
@@ -21,6 +21,7 @@ El repo es público, así que **aquí solo hay código**. Los datos (catálogo, 
 | `js/menu.js` | Reglas del menú: proponer la semana, proponer un solo hueco, intercambiar días. |
 | `js/compra.js` | Calcula la lista de la compra por secciones del súper. |
 | `js/fechas.js` | Lunes de cada semana y fechas en español. |
+| `js/bocetos.js` | Los dibujos a lápiz de los platos y qué dibujo le toca a cada plato según su nombre. |
 | `js/datos.js` | Lo único que habla con Supabase. |
 | `js/config.js` | La URL del proyecto de Supabase y su clave *publishable*. |
 | `supabase/esquema.sql` | Tablas y reglas de acceso. Se pega una vez en Supabase. |
