@@ -7,6 +7,10 @@
   <meta name="description" content="Zona privada del portfolio de Mendu: menú semanal y lista de la compra, con inicio de sesión y base de datos.">
   <!-- Que los buscadores no la indexen: no hay nada que ver sin sesión -->
   <meta name="robots" content="noindex, nofollow">
+  <!-- Letras del estilo "cuaderno de cocina": Fraunces (títulos), Work Sans (texto) y Caveat (a mano) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&amp;family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,600&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap">
   <link rel="stylesheet" href="../../css/styles.css">
   <link rel="stylesheet" href="zona-privada.css">
   <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
@@ -37,7 +41,7 @@
         <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17 9V7a5 5 0 0 0-10 0v2H5v13h14V9h-2zM9 7a3 3 0 0 1 6 0v2H9V7zm4 9.7V19h-2v-2.3a2 2 0 1 1 2 0z"/></svg>
         Privado
       </span>
-      <h1>Zona privada</h1>
+      <h1 class="titulo-vista">Zona <em>privada</em></h1>
       <p>Aquí está nuestro menú de la semana y la lista de la compra. Para verlo hay que iniciar sesión: los datos viven en una base de datos que solo se los da a sus dueños.</p>
 
       <form id="form-acceso" class="formulario acceso-formulario">
@@ -55,21 +59,32 @@
     <!-- ===== Panel (solo con sesión) ===== -->
     <section id="panel" class="panel" hidden>
       <div class="panel-cabecera">
-        <p class="saludo">Hola, <span id="nombre-miembro"></span></p>
+        <div class="panel-arriba">
+          <p class="saludo">Hola, <span id="nombre-miembro"></span></p>
+          <div class="pestanas" role="tablist" aria-label="Secciones">
+            <button type="button" role="tab" id="pestana-menu" aria-controls="vista-menu" aria-selected="true">Menú</button>
+            <button type="button" role="tab" id="pestana-compra" aria-controls="vista-compra" aria-selected="false" tabindex="-1">
+              Compra <span id="contador-compra" class="contador"></span>
+            </button>
+            <button type="button" role="tab" id="pestana-ajustes" aria-controls="vista-ajustes" aria-selected="false" tabindex="-1">Ajustes</button>
+          </div>
+        </div>
+
+        <p id="sobretitulo" class="sobretitulo"></p>
+        <h1 id="titulo-vista" class="titulo-vista">Menú de la <em>semana</em></h1>
+
         <div class="semana">
-          <button type="button" id="semana-anterior" class="boton-icono" aria-label="Semana anterior">‹</button>
-          <h1 id="titulo-semana" class="semana-titulo"></h1>
-          <button type="button" id="semana-siguiente" class="boton-icono" aria-label="Semana siguiente">›</button>
+          <button type="button" id="semana-anterior" class="semana-boton">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 18l-6-6 6-6"></path></svg>
+            Anterior
+          </button>
+          <span id="titulo-semana" class="semana-rango"></span>
+          <button type="button" id="semana-siguiente" class="semana-boton">
+            Siguiente
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 18l6-6-6-6"></path></svg>
+          </button>
         </div>
         <button type="button" id="ir-a-hoy" class="enlace-boton" hidden>Volver a esta semana</button>
-
-        <div class="pestanas" role="tablist" aria-label="Secciones">
-          <button type="button" role="tab" id="pestana-menu" aria-controls="vista-menu" aria-selected="true">Menú</button>
-          <button type="button" role="tab" id="pestana-compra" aria-controls="vista-compra" aria-selected="false" tabindex="-1">
-            Compra <span id="contador-compra" class="contador"></span>
-          </button>
-          <button type="button" role="tab" id="pestana-ajustes" aria-controls="vista-ajustes" aria-selected="false" tabindex="-1">Ajustes</button>
-        </div>
       </div>
 
       <div id="vista-menu" class="vista" role="tabpanel" aria-labelledby="pestana-menu"></div>

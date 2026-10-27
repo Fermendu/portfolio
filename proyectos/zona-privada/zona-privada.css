@@ -1,11 +1,43 @@
-/* Estilos propios de la zona privada.
-   Los generales (colores, cabecera, botones, formulario…) vienen de ../../css/styles.css */
+/* ===== Zona privada · estilo "cuaderno de cocina" =====
+   Los estilos generales vienen de ../../css/styles.css.
+   Aquí se cambian sus colores para esta página (las variables de :root)
+   y se añade todo lo propio: el cuaderno de la semana, la compra y la ventana de cambios. */
 
 :root {
-  --color-mario: #9a5b00;
-  --color-mario-suave: #fbf0dc;
-  --color-error-suave: #fbe9e7;
-  --radio: 12px;
+  /* Colores de la web, versión cuaderno */
+  --color-fondo: #FBF6EC;          /* papel */
+  --color-texto: #2B2620;          /* tinta */
+  --color-suave: #685E52;          /* tinta clara */
+  --color-principal: #A63F26;      /* rojo teja */
+  --color-principal-suave: #F3E4DA;
+  --color-tarjeta: #FFFDF8;
+  --color-borde: #E6DCCB;
+  --color-error: #A3241B;
+
+  /* Propios de esta página */
+  --color-oliva: #56632A;
+  --color-mario: #A63F26;
+  --color-punteado: #CDBFA6;
+  --color-lapiz: #5F5A54;
+  --letra-titulos: "Fraunces", Georgia, serif;
+  --letra-texto: "Work Sans", system-ui, sans-serif;
+  --letra-mano: "Caveat", cursive;
+  --radio: 4px;
+}
+
+body {
+  font-family: var(--letra-texto);
+}
+
+/* La cabecera común, en papel */
+.cabecera {
+  z-index: 5;
+  background-color: var(--color-fondo);
+  border-bottom-color: var(--color-borde);
+}
+
+.pie {
+  border-top-color: var(--color-borde);
 }
 
 /* Texto solo para lectores de pantalla */
@@ -26,30 +58,38 @@
   color: var(--color-suave);
 }
 
-/* La cabecera fija siempre por encima de lo que pasa por debajo al hacer scroll */
-.cabecera {
-  z-index: 5;
-}
-
 .cargando {
   text-align: center;
   color: var(--color-suave);
 }
 
-/* ===== Botones extra ===== */
+/* ===== Botones ===== */
 .boton {
-  border: none;
-  font: inherit;
+  min-height: 48px;
+  padding: 0 22px;
+  border: 1.5px solid var(--color-texto);
+  border-radius: 999px;
+  background-color: var(--color-texto);
+  color: var(--color-fondo);
+  font-family: var(--letra-titulos);
+  font-size: 1.05rem;
+  font-style: italic;
   cursor: pointer;
 }
 
+.boton:hover {
+  opacity: 0.88;
+}
+
 .boton-secundario {
-  display: inline-block;
-  padding: 8px 18px;
-  border: 1px solid var(--color-principal);
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1.5px solid var(--color-texto);
   border-radius: 999px;
-  background-color: var(--color-tarjeta);
-  color: var(--color-principal);
+  background: transparent;
+  color: var(--color-texto);
   font: inherit;
   font-weight: 600;
   cursor: pointer;
@@ -60,11 +100,11 @@
 }
 
 .boton-icono {
-  width: 40px;
-  height: 40px;
-  border: 1px solid var(--color-borde);
+  width: 44px;
+  height: 44px;
+  border: 1.5px solid var(--color-borde);
   border-radius: 50%;
-  background-color: var(--color-tarjeta);
+  background: transparent;
   color: var(--color-texto);
   font-size: 1.4rem;
   line-height: 1;
@@ -85,14 +125,39 @@
 .boton-secundario:focus-visible,
 .boton-icono:focus-visible,
 .enlace-boton:focus-visible,
+.semana-boton:focus-visible,
 .boton-archivo:focus-within {
   outline: 3px solid var(--color-principal);
   outline-offset: 3px;
 }
 
+/* ===== Títulos de cuaderno ===== */
+.sobretitulo {
+  margin: 0;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-suave);
+}
+
+.titulo-vista {
+  margin: 4px 0 0;
+  font-family: var(--letra-titulos);
+  font-size: 2.6rem;
+  line-height: 1;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.titulo-vista em {
+  font-weight: 400;
+  color: var(--color-principal);
+}
+
 /* ===== Acceso ===== */
-.acceso h1 {
-  margin: 12px 0 4px;
+.acceso .titulo-vista {
+  margin: 14px 0 8px;
 }
 
 .acceso > p {
@@ -101,11 +166,19 @@
 
 .acceso-formulario {
   max-width: 420px;
+  border-color: var(--color-borde);
+  border-radius: var(--radio);
 }
 
 .acceso-formulario .boton {
   margin-top: 16px;
   align-self: flex-start;
+}
+
+.formulario input,
+.formulario select,
+.formulario textarea {
+  background-color: var(--color-fondo);
 }
 
 .estado-privado {
@@ -122,69 +195,62 @@
 
 /* ===== Panel ===== */
 .panel {
-  /* Algo más ancho que el resto de la web para que quepan los 7 días */
-  max-width: 1120px;
+  max-width: 640px;
   margin: 0 auto;
-  padding: 16px 16px 48px;
+  padding: 18px 20px 48px;
 }
 
 .panel-cabecera {
   display: flex;
   flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.panel-arriba {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
+  gap: 4px 12px;
+  margin-bottom: 10px;
 }
 
 .saludo {
   margin: 0;
+  font-family: var(--letra-mano);
+  font-size: 1.3rem;
   color: var(--color-suave);
 }
 
-.semana {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.semana-titulo {
-  margin: 0;
-  min-width: 10ch;
-  font-size: 1.3rem;
-  text-align: center;
-}
-
-/* Pestañas: Menú · Compra · Ajustes */
+/* Pestañas: texto subrayado, como en un índice */
 .pestanas {
   display: flex;
-  width: 100%;
-  max-width: 420px;
-  margin-top: 8px;
-  padding: 4px;
-  border-radius: 999px;
-  background-color: var(--color-principal-suave);
+  gap: 2px;
 }
 
 .pestanas button {
-  flex: 1;
   display: inline-flex;
-  justify-content: center;
   align-items: center;
   gap: 6px;
-  padding: 8px 4px;
+  min-height: 44px;
+  padding: 0 10px;
   border: none;
-  border-radius: 999px;
   background: none;
-  color: var(--color-principal);
+  color: var(--color-suave);
   font: inherit;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
 }
 
 .pestanas button[aria-selected="true"] {
-  background-color: var(--color-tarjeta);
   color: var(--color-texto);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+  font-weight: 700;
+  text-decoration: underline;
+  text-decoration-color: var(--color-principal);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 6px;
 }
 
 .pestanas button:focus-visible {
@@ -193,22 +259,73 @@
 }
 
 .contador:not(:empty) {
-  min-width: 1.5em;
-  padding: 0 6px;
+  min-width: 1.4em;
+  padding: 0 5px;
   border-radius: 999px;
   background-color: var(--color-principal);
   color: #ffffff;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Semana: Anterior · 26 oct — 1 nov · Siguiente */
+.semana {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.semana-boton {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  min-height: 44px;
+  padding: 0 4px;
+  border: none;
+  background: none;
+  color: var(--color-suave);
+  font: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.semana-boton:hover {
+  color: var(--color-texto);
+}
+
+.semana-boton svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 2.2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.semana-rango {
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-size: 1.05rem;
+}
+
+#ir-a-hoy {
+  align-self: center;
+  min-height: 32px;
 }
 
 .vacio {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 32px 16px;
-  border: 2px dashed var(--color-borde);
+  gap: 10px;
+  padding: 24px 16px 32px;
+  border: 1.5px dashed var(--color-punteado);
   border-radius: var(--radio);
   text-align: center;
 }
@@ -217,80 +334,119 @@
   margin: 0;
 }
 
-/* ===== Menú ===== */
-.subtitulo-vista {
-  margin: 0;
-  font-size: 1.1rem;
+.vacio .boceto {
+  width: 160px;
+  height: auto;
 }
 
-/* ----- Tabla resumen de la semana ----- */
-.resumen-semana {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  margin-bottom: 32px;
-}
-
-.tabla-semana-marco {
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio);
-  background-color: var(--color-tarjeta);
-  overflow: hidden;
-}
-
-.tabla-semana {
-  width: 100%;
-  border-collapse: collapse;
-  table-layout: fixed;
-}
-
-.tabla-semana th,
-.tabla-semana td {
-  padding: 0;
-  border-bottom: 1px solid var(--color-borde);
-  vertical-align: top;
-  text-align: left;
-}
-
-.tabla-semana tbody tr:last-child th,
-.tabla-semana tbody tr:last-child td {
-  border-bottom: none;
-}
-
-.tabla-semana td + td,
-.tabla-semana th + td,
-.tabla-semana thead th {
-  border-left: 1px solid var(--color-borde);
-}
-
-/* Cabeceras: días y "Comida / Cena" */
-.tabla-semana thead th,
-.tabla-semana tbody th {
-  padding: 8px 10px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
+/* ===== Menú: el cuaderno de la semana ===== */
+.lema {
+  margin: 0 0 6px;
+  font-family: var(--letra-mano);
+  font-size: 1.25rem;
   color: var(--color-suave);
 }
 
-.th-fecha {
-  display: block;
-  font-weight: normal;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-/* Cada celda es un botón: al pulsarlo se abre la ventana para cambiar esa comida */
-.celda-boton {
+.dia {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 6px;
+  padding: 20px 0 16px;
+  border-top: 1.5px dotted var(--color-punteado);
+}
+
+.dia-pasado {
+  opacity: 0.5;
+}
+
+.dia-titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  font-weight: normal;
+}
+
+.dia-num {
+  font-family: var(--letra-titulos);
+  font-size: 2rem;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.dia-hoy .dia-num {
+  color: var(--color-principal);
+}
+
+.dia-nombre {
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-size: 1.25rem;
+}
+
+/* Sello de "hoy", como un tampón */
+.sello {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-left: auto;
+  border: 1.5px solid var(--color-principal);
+  border-radius: 50%;
+  color: var(--color-principal);
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-size: 0.9rem;
+  transform: rotate(-10deg);
+}
+
+/* Comidas a un lado y boceto al otro; un día sí y otro no se cambian de lado */
+.dia-cuerpo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.dia-izquierda .dia-cuerpo {
+  flex-direction: row-reverse;
+}
+
+.dia-huecos {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+}
+
+.dia-boceto {
+  flex-shrink: 0;
+  width: 140px;
+  margin: 0;
+}
+
+.boceto {
+  display: block;
   width: 100%;
-  height: 100%;
-  min-height: 64px;
-  padding: 8px 10px;
+  height: auto;
+}
+
+@media (min-width: 560px) {
+  .dia-boceto {
+    width: 190px;
+  }
+}
+
+/* Cada comida o cena es un botón: al tocarlo se abre la ventana para cambiarla */
+.hueco {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  min-height: 48px;
+  padding: 6px 4px;
   border: none;
+  border-radius: var(--radio);
   background: none;
   color: var(--color-texto);
   font: inherit;
@@ -298,280 +454,135 @@
   cursor: pointer;
 }
 
-.celda-boton:hover {
-  background-color: var(--color-fondo);
-}
-
-.celda-boton:focus-visible {
-  outline: 3px solid var(--color-principal);
-  outline-offset: -3px;
-}
-
-.celda-plato {
-  font-size: 0.9rem;
-  font-weight: 600;
-  line-height: 1.25;
-}
-
-.celda-con {
-  font-size: 0.8rem;
-  line-height: 1.3;
-  color: var(--color-suave);
-}
-
-.celda-apagada {
-  font-size: 0.9rem;
-  font-style: italic;
-  color: var(--color-suave);
-}
-
-.celda-marcas {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px 10px;
-  margin-top: 2px;
-}
-
-.marca {
-  font-size: 0.7rem;
-  font-weight: 600;
-  color: var(--color-principal);
-}
-
-.marca-mario {
-  color: var(--color-mario);
-}
-
-.celda-aviso {
-  font-size: 0.7rem;
-  line-height: 1.3;
-  color: var(--color-error);
-}
-
-/* Hoy: una línea de color, sin pintar toda la columna */
-.tabla-semana thead th.col-hoy,
-.tabla-movil .fila-hoy th {
-  color: var(--color-principal);
-}
-
-.tabla-ancha .col-hoy {
-  box-shadow: inset 0 3px 0 var(--color-principal);
-}
-
-.tabla-ancha tbody td.col-hoy {
-  box-shadow: none;
-  background-color: var(--color-principal-suave);
-}
-
-.tabla-movil .fila-hoy td,
-.tabla-movil .fila-hoy th {
-  background-color: var(--color-principal-suave);
-}
-
-/* Móvil: días en filas. Pantallas anchas: días en columnas */
-.tabla-ancha {
-  display: none;
-}
-
-.tabla-movil thead td,
-.tabla-movil tbody th {
-  width: 3.6rem;
-}
-
-@media (min-width: 760px) {
-  .tabla-ancha {
-    display: block;
-  }
-
-  .tabla-movil {
-    display: none;
-  }
-
-  .tabla-ancha thead td,
-  .tabla-ancha tbody th {
-    width: 5.5rem;
-  }
-}
-
-/* Si se imprime, solo sale la tabla (para pegarla en la nevera) */
-@media print {
-  .cabecera,
-  .pie,
-  .saludo,
-  .semana button,
-  #ir-a-hoy,
-  .pestanas,
-  .resumen-semana + section,
-  .aviso {
-    display: none !important;
-  }
-
-  .tabla-ancha {
-    display: block;
-  }
-
-  .tabla-movil {
-    display: none;
-  }
-}
-
-/* ----- Tarjetas para cambiar comidas ----- */
-.menu-barra {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 12px;
-}
-
-.dias {
-  display: grid;
-  gap: 12px;
-}
-
-/* En pantallas anchas, dos columnas de días */
-@media (min-width: 700px) {
-  .dias {
-    grid-template-columns: 1fr 1fr;
-  }
-}
-
-.dia {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 12px;
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio);
-  background-color: var(--color-tarjeta);
-}
-
-.dia-hoy {
-  border-color: var(--color-principal);
-  box-shadow: 0 0 0 1px var(--color-principal);
-}
-
-.dia-titulo {
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  margin: 0;
-  font-size: 1.05rem;
-}
-
-.dia-fecha {
-  font-weight: normal;
-  color: var(--color-suave);
-}
-
-/* Cada comida o cena es un botón grande, fácil de pulsar con el pulgar */
-.hueco {
-  display: grid;
-  grid-template-columns: 4.5em 1fr;
-  gap: 2px 10px;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--color-borde);
-  border-radius: 10px;
-  background-color: var(--color-fondo);
-  color: var(--color-texto);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-}
-
 .hueco:hover {
-  border-color: var(--color-principal);
+  background-color: var(--color-tarjeta);
 }
 
 .hueco:focus-visible {
   outline: 3px solid var(--color-principal);
-  outline-offset: 2px;
+  outline-offset: 1px;
 }
 
-.hueco-momento {
-  padding-top: 1px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.03em;
-  color: var(--color-suave);
+.circulo,
+.circulo-fuera {
+  flex-shrink: 0;
+  margin-top: 17px;
+}
+
+.circulo-fuera {
+  width: 26px;
+  height: 26px;
+  border: 1.5px dashed #B5A68C;
+  border-radius: 50%;
 }
 
 .hueco-texto {
   display: flex;
   flex-direction: column;
+  flex: 1;
+  min-width: 0;
 }
 
-.hueco-principal {
+.hueco-momento {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-suave);
+}
+
+.hueco-nombre {
+  margin-top: 2px;
+  font-family: var(--letra-titulos);
+  font-size: 1.08rem;
+  line-height: 1.2;
   font-weight: 600;
-  line-height: 1.3;
 }
 
 .hueco-con {
+  font-family: var(--letra-titulos);
+  font-style: italic;
   font-size: 0.9rem;
-  color: var(--color-suave);
-  line-height: 1.35;
+  line-height: 1.3;
+  color: #5A5046;
 }
 
-.hueco-apagado {
-  font-weight: normal;
+.hueco-fuera .hueco-nombre {
+  font-weight: 400;
   font-style: italic;
   color: var(--color-suave);
 }
 
-.hueco-chips {
-  grid-column: 2;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  margin-top: 4px;
-}
-
-.hueco-fuera {
-  background-color: var(--color-tarjeta);
-  border-style: dashed;
-}
-
-/* Etiquetas pequeñas: Mario, Sobras, Solo yo, avisos… */
-.chip {
+/* Notas pequeñas: receta de Mario, sobras, solo yo, avisos */
+.nota-hueco {
   display: inline-block;
-  padding: 1px 8px;
-  border-radius: 999px;
-  background-color: var(--color-principal-suave);
-  color: var(--color-principal);
-  font-size: 0.75rem;
-  font-weight: 600;
-  white-space: nowrap;
+  margin-top: 3px;
+  font-size: 0.66rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-suave);
 }
 
-.chip-mario {
-  background-color: var(--color-mario-suave);
+.nota-mario {
   color: var(--color-mario);
 }
 
-.chip-aviso {
-  background-color: var(--color-error-suave);
-  color: var(--color-error);
-  white-space: normal;
+.nota-sobras {
+  color: var(--color-oliva);
 }
 
-.chip-hoy {
-  background-color: var(--color-principal);
-  color: #ffffff;
+.nota-aviso {
+  color: var(--color-error);
+  letter-spacing: 0.04em;
 }
+
+.menu-pie {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 22px 0 8px;
+  border-top: 1.5px dotted var(--color-punteado);
+  text-align: center;
+}
+
+.leyenda {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 20px;
+  padding: 12px 14px;
+  border: 1.5px solid var(--color-texto);
+  border-radius: var(--radio);
+  background-color: var(--color-tarjeta);
+}
+
+.leyenda .circulo {
+  margin-top: 0;
+}
+
+.leyenda p {
+  margin: 0;
+  font-size: 0.85rem;
+  line-height: 1.45;
+  color: #4A4238;
+}
+
+.t-proteina { color: #8A3A22; }
+.t-hidrato { color: #8F5F14; }
+.t-verdura { color: var(--color-oliva); }
 
 /* ===== Ventana de una comida ===== */
 .dialogo {
   width: min(560px, 100%);
   max-height: 90vh;
   padding: 0;
-  border: none;
-  border-radius: 16px;
+  border: 1.5px solid var(--color-texto);
+  border-radius: var(--radio);
   color: var(--color-texto);
-  background-color: var(--color-tarjeta);
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.25);
+  background-color: var(--color-fondo);
+  box-shadow: 8px 8px 0 rgba(43, 38, 32, 0.15);
 }
 
 .dialogo[open] {
@@ -580,7 +591,7 @@
 }
 
 .dialogo::backdrop {
-  background-color: rgba(31, 45, 39, 0.5);
+  background-color: rgba(43, 38, 32, 0.45);
 }
 
 /* En el móvil sale desde abajo, como una hoja */
@@ -588,7 +599,9 @@
   .dialogo {
     margin: auto 0 0;
     max-width: 100%;
-    border-radius: 16px 16px 0 0;
+    border-width: 1.5px 0 0;
+    border-radius: 12px 12px 0 0;
+    box-shadow: none;
   }
 }
 
@@ -598,12 +611,14 @@
   align-items: center;
   gap: 8px;
   padding: 12px 16px;
-  border-bottom: 1px solid var(--color-borde);
+  border-bottom: 1.5px dotted var(--color-punteado);
 }
 
 .dialogo-cabecera h2 {
   margin: 0;
-  font-size: 1.15rem;
+  font-family: var(--letra-titulos);
+  font-size: 1.4rem;
+  font-weight: 600;
 }
 
 .dialogo-cuerpo {
@@ -618,16 +633,16 @@
   display: flex;
   justify-content: flex-end;
   padding: 12px 16px;
-  border-top: 1px solid var(--color-borde);
-}
-
-.dialogo-pie .boton {
-  margin-top: 0;
+  border-top: 1.5px dotted var(--color-punteado);
 }
 
 .dialogo-subtitulo {
   margin: 8px 0 0;
-  font-size: 1rem;
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.2rem;
+  color: var(--color-principal);
 }
 
 .dialogo-cuerpo .boton-secundario {
@@ -643,10 +658,11 @@
 .form-extra input,
 .form-extra select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid var(--color-borde);
-  border-radius: 8px;
-  background-color: var(--color-fondo);
+  min-height: 44px;
+  padding: 8px 10px;
+  border: 1.5px solid var(--color-borde);
+  border-radius: var(--radio);
+  background-color: var(--color-tarjeta);
   color: var(--color-texto);
   font: inherit;
 }
@@ -658,7 +674,7 @@
   outline-offset: 1px;
 }
 
-/* Botones de opción en fila: Cocinar | Sobras | Fuera */
+/* Opciones en fila: Cocinar | Sobras | Fuera */
 .segmentado {
   display: flex;
   flex-wrap: wrap;
@@ -691,17 +707,18 @@
 
 .segmento span {
   display: block;
-  padding: 8px;
-  border: 1px solid var(--color-borde);
-  border-radius: 8px;
+  padding: 10px 8px;
+  border: 1.5px solid var(--color-borde);
+  border-radius: var(--radio);
+  background-color: var(--color-tarjeta);
   text-align: center;
   cursor: pointer;
 }
 
 .segmento input:checked + span {
-  border-color: var(--color-principal);
-  background-color: var(--color-principal-suave);
-  color: var(--color-principal);
+  border-color: var(--color-texto);
+  background-color: var(--color-texto);
+  color: var(--color-fondo);
   font-weight: 600;
 }
 
@@ -713,16 +730,14 @@
 .lista-platos {
   display: flex;
   flex-direction: column;
-  gap: 8px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
 .plato {
-  padding: 10px 12px;
-  border: 1px solid var(--color-borde);
-  border-radius: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--color-borde);
 }
 
 .plato-fila {
@@ -733,6 +748,10 @@
 }
 
 .plato-nombre {
+  display: flex;
+  flex-direction: column;
+  font-family: var(--letra-titulos);
+  font-size: 1.08rem;
   font-weight: 600;
 }
 
@@ -759,11 +778,9 @@
 
 .aviso-hueco {
   margin: 0;
-  padding: 8px 12px;
-  border-radius: 8px;
-  background-color: var(--color-error-suave);
+  font-family: var(--letra-mano);
+  font-size: 1.2rem;
   color: var(--color-error);
-  font-size: 0.9rem;
 }
 
 /* ===== Compra ===== */
@@ -772,35 +789,38 @@
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  margin-bottom: 12px;
-}
-
-.compra-barra .boton {
-  margin-top: 0;
+  margin: 8px 0 14px;
 }
 
 .compra-resumen {
   margin: 0;
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-size: 1.1rem;
+  color: #5A5046;
 }
 
 .form-extra {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 8px;
-  margin-bottom: 16px;
+  margin-bottom: 22px;
 }
 
 .form-extra input {
   grid-column: 1 / -1;
+  border-width: 0 0 1.5px;
+  border-color: var(--color-texto);
+  border-radius: 0;
+  background: transparent;
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-size: 1.05rem;
 }
 
-.form-extra .boton {
-  margin-top: 0;
-}
-
-@media (min-width: 600px) {
+@media (min-width: 560px) {
   .form-extra {
-    grid-template-columns: 1fr 12rem auto;
+    grid-template-columns: 1fr 11rem auto;
   }
 
   .form-extra input {
@@ -809,109 +829,144 @@
 }
 
 .seccion-compra {
-  margin-bottom: 16px;
+  margin-bottom: 22px;
 }
 
 .seccion-compra h2 {
-  margin: 0 0 6px;
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-  color: var(--color-suave);
+  margin: 0 0 2px;
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: var(--color-principal);
+}
+
+.seccion-basicos {
+  padding: 12px 14px 4px;
+  border: 1.5px dashed #B5A68C;
+  border-radius: var(--radio);
+}
+
+.seccion-basicos h2 {
+  color: var(--color-texto);
+  font-size: 1.15rem;
 }
 
 .items {
   margin: 0;
   padding: 0;
   list-style: none;
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio);
-  background-color: var(--color-tarjeta);
-  overflow: hidden;
 }
 
 .item {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 4px 8px 4px 0;
+  border-bottom: 1px solid var(--color-borde);
 }
 
-.item + .item {
-  border-top: 1px solid var(--color-borde);
+.seccion-basicos .item:last-child {
+  border-bottom: none;
 }
 
 .item-marca {
   flex: 1;
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  min-height: 44px;
-  padding: 8px 0 8px 12px;
+  align-items: baseline;
+  gap: 12px;
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px 0;
   cursor: pointer;
 }
 
+/* Casilla redonda, como marcada a boli */
 .item-marca input {
+  appearance: none;
   flex-shrink: 0;
-  width: 20px;
-  height: 20px;
-  margin-top: 2px;
-  accent-color: var(--color-principal);
+  position: relative;
+  top: 4px;
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  border: 1.5px solid var(--color-texto);
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.item-marca input:checked {
+  background-color: var(--color-texto);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23FBF6EC' stroke-width='3.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12.5l4.5 4.5L19 7.5'/%3E%3C/svg%3E");
+  background-size: 13px;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.item-marca input:focus-visible {
+  outline: 3px solid var(--color-principal);
+  outline-offset: 2px;
 }
 
 .item-texto {
   display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  gap: 0 8px;
+  flex-direction: column;
+  min-width: 0;
 }
 
 .item-nombre {
-  font-weight: 600;
-}
-
-.item-cantidad {
-  color: var(--color-principal);
-  font-weight: 600;
-  white-space: nowrap;
+  font-family: var(--letra-titulos);
+  font-size: 1.08rem;
+  line-height: 1.25;
 }
 
 .item-detalle {
-  width: 100%;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   color: var(--color-suave);
 }
 
-.item-tachado .item-nombre,
-.item-tachado .item-cantidad {
-  text-decoration: line-through;
-  color: var(--color-suave);
-}
-
-.item-tachado .item-detalle {
-  display: none;
-}
-
-.item-en-casa .item-texto {
+/* Línea de puntos hasta la cantidad */
+.item-puntos {
   flex: 1;
-  padding: 10px 0 10px 12px;
+  min-width: 12px;
+  border-bottom: 1.5px dotted var(--color-punteado);
+  transform: translateY(-4px);
+}
+
+.item-cantidad {
+  font-size: 0.9rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.item-tachado .item-nombre {
+  text-decoration: line-through;
+  text-decoration-color: var(--color-principal);
+  text-decoration-thickness: 2px;
+  color: #7A6F62;
+}
+
+.item-tachado .item-cantidad,
+.item-tachado .item-detalle {
+  color: #7A6F62;
 }
 
 .item-boton {
   flex-shrink: 0;
-  padding: 6px 10px;
+  min-height: 36px;
+  padding: 0 10px;
   border: 1px solid var(--color-borde);
   border-radius: 999px;
-  background-color: var(--color-tarjeta);
+  background: transparent;
   color: var(--color-suave);
   font: inherit;
-  font-size: 0.8rem;
+  font-size: 0.75rem;
   cursor: pointer;
 }
 
 .item-boton:hover {
-  color: var(--color-principal);
-  border-color: var(--color-principal);
+  color: var(--color-texto);
+  border-color: var(--color-texto);
 }
 
 .item-boton:focus-visible {
@@ -919,29 +974,26 @@
   outline-offset: 2px;
 }
 
-.seccion-basicos .items {
-  border-style: dashed;
+.item-en-casa {
+  justify-content: space-between;
+  min-height: 48px;
 }
 
 .desplegable {
   margin-bottom: 12px;
-  padding: 10px 12px;
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio);
-  background-color: var(--color-tarjeta);
+  padding: 10px 0;
+  border-top: 1.5px dotted var(--color-punteado);
 }
 
 .desplegable summary {
-  font-weight: 600;
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-size: 1.1rem;
   cursor: pointer;
 }
 
 .desplegable[open] summary {
   margin-bottom: 8px;
-}
-
-.desplegable .items {
-  border: none;
 }
 
 /* ===== Ajustes ===== */
@@ -950,16 +1002,17 @@
   flex-direction: column;
   align-items: flex-start;
   gap: 8px;
-  margin-bottom: 12px;
-  padding: 16px;
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio);
-  background-color: var(--color-tarjeta);
+  padding: 18px 0;
+  border-top: 1.5px dotted var(--color-punteado);
 }
 
 .ajuste h2 {
   margin: 0;
-  font-size: 1.05rem;
+  font-family: var(--letra-titulos);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.35rem;
+  color: var(--color-principal);
 }
 
 .ajuste p {
@@ -981,7 +1034,7 @@
   padding: 10px 18px;
   border-radius: 999px;
   background-color: var(--color-texto);
-  color: #ffffff;
+  color: var(--color-fondo);
   font-size: 0.95rem;
   text-align: center;
   opacity: 0;
@@ -1003,5 +1056,23 @@
 @media (prefers-reduced-motion: reduce) {
   .aviso {
     transition: none;
+  }
+}
+
+/* ===== Al imprimir: solo el cuaderno de la semana ===== */
+@media print {
+  .cabecera,
+  .pie,
+  .saludo,
+  .pestanas,
+  .semana-boton,
+  #ir-a-hoy,
+  .menu-pie,
+  .aviso {
+    display: none !important;
+  }
+
+  .dia {
+    break-inside: avoid;
   }
 }

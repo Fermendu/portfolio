@@ -31,7 +31,7 @@ Publicada con GitHub Pages: https://fermendu.github.io/portfolio/
 Proyectos, en orden:
 1. Generador de cuadros de torneo de pádel (solo JS): eliminatoria con byes y cabezas de serie → liguilla de grupos → consolación → previas.
 2. Landings de marcas inventadas (CSS y formularios). Nunca copiar marcas reales.
-3. Zona privada con login y base de datos (Supabase): menú semanal y mi Excel, visibles solo para mí. **En marcha:** `proyectos/zona-privada/` (login, menú semanal y compra; ver su `LEEME.md`). Usa módulos JS (`type="module"`) y Supabase desde CDN. Los datos solo viven en Supabase, protegidos por RLS; nunca en el repo. Pendiente: el Excel (entrenos, peso, creatina y semáforo de comida).
+3. Zona privada con login y base de datos (Supabase): menú semanal y mi Excel, visibles solo para mí. **En marcha:** `proyectos/zona-privada/` (login, menú semanal y compra; ver su `LEEME.md`). Usa módulos JS (`type="module"`), Supabase desde CDN y su propio estilo "cuaderno de cocina" (colores propios en su CSS y Google Fonts). Los datos solo viven en Supabase, protegidos por RLS; nunca en el repo. Pendiente: el Excel (entrenos, peso, creatina y semáforo de comida).
 4. Torneos: guardar y compartir enlace (usa el backend de la zona privada).
 
 Regla: los datos personales nunca van en el repo, porque es público.

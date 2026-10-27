@@ -7,7 +7,8 @@ import {
   crearPiezas, proponerSemana, proponerHueco, intercambiar, avisosHueco, copiar, MOMENTOS, PERSONAS_POR_DEFECTO,
 } from "./menu.js";
 import { calcularCompra, compraVacia, textoParaCompartir, textoCantidad, separarNombre, SECCIONES } from "./compra.js";
-import { NOMBRES_DIAS, lunesDe, sumarDias, fechaCorta, semanasEntre, aTexto } from "./fechas.js";
+import { NOMBRES_DIAS, lunesDe, sumarDias, fechaCorta, fechaLarga, semanasEntre, aTexto } from "./fechas.js";
+import { BOCETOS, bocetoDe } from "./bocetos.js";
 
 const $ = (selector) => document.querySelector(selector);
 
@@ -192,9 +193,61 @@ function pintar() {
 
 function pintarCabecera() {
   const domingo = sumarDias(estado.lunes, 6);
-  $("#titulo-semana").textContent = `${fechaCorta(estado.lunes)} – ${fechaCorta(domingo)}`;
+  $("#sobretitulo").textContent = `Semana del ${fechaLarga(estado.lunes)}`;
+  $("#titulo-semana").textContent = `${fechaCorta(estado.lunes)} — ${fechaCorta(domingo)}`;
   $("#ir-a-hoy").hidden = estado.lunes === lunesDe();
 }
+
+// ---------- Piezas de dibujo: el círculo y los bocetos ----------
+
+const COLORES_CIRCULO = { proteina: "#8A3A22", hidrato: "#D89B3A", verdura: "#93A55E", nada: "#E6DCCB" };
+
+// Círculo de tres trozos: proteína, hidrato y verdura. En gris lo que falta.
+function circulo(cubre, tamano = 30) {
+  const trozo = (que, giro) =>
+    `<circle cx="18" cy="18" r="13" fill="none" stroke="${cubre.has(que) ? COLORES_CIRCULO[que] : COLORES_CIRCULO.nada}" stroke-width="5" stroke-linecap="round" stroke-dasharray="19.2 62.5" transform="rotate(${giro} 18 18)"></circle>`;
+  return `
+    <svg class="circulo" width="${tamano}" height="${tamano}" viewBox="0 0 36 36" aria-hidden="true">
+      ${trozo("proteina", -72.4)}${trozo("hidrato", 47.6)}${trozo("verdura", 167.6)}
+    </svg>`;
+}
+
+const ESTILO_TRAZO = {
+  T: 'fill="#FBF6EC" stroke="none"',
+  L: 'fill="none" stroke="#5F5A54" stroke-width="1.15" opacity="0.92"',
+  F: 'fill="none" stroke="#5F5A54" stroke-width="0.55" opacity="0.6"',
+};
+
+function boceto(nombre, descripcion) {
+  const capas = BOCETOS[nombre] ?? BOCETOS.plato;
+  const trazos = capas
+    .map(([tipo, d]) => {
+      let html = `<path d="${d}" ${ESTILO_TRAZO[tipo]}></path>`;
+      // Segunda pasada desplazada en las líneas principales: da el aire de lápiz
+      if (tipo === "L") html += `<path d="${d}" fill="none" stroke="#5F5A54" stroke-width="0.7" opacity="0.3" transform="translate(0.8 0.5)"></path>`;
+      return html;
+    })
+    .join("");
+  return `
+    <svg class="boceto" viewBox="0 0 120 90" role="img" aria-label="Boceto a lápiz: ${esc(descripcion)}" stroke-linecap="round" stroke-linejoin="round">${trazos}</svg>`;
+}
+
+// El dibujo del día: el plato principal de la comida o, si no hay, el de la cena
+function bocetoDelDia(dia) {
+  let generico = null;
+  for (const momento of MOMENTOS) {
+    const hueco = dia[momento];
+    if (hueco.estado === "fuera") continue;
+    const principal = estado.piezas.get(hueco.platos[0]);
+    if (!principal) continue;
+    const nombre = bocetoDe(principal.nombre);
+    if (nombre !== "plato") return { nombre, descripcion: nombreCorto(principal.nombre).toLowerCase() };
+    generico ??= { nombre, descripcion: nombreCorto(principal.nombre).toLowerCase() };
+  }
+  return generico;
+}
+
+// ---------- Menú: el cuaderno de la semana ----------
 
 function pintarMenu() {
   const vista = $("#vista-menu");
@@ -211,6 +264,7 @@ function pintarMenu() {
   if (!estado.menu) {
     vista.innerHTML = `
       <div class="vacio">
+        ${boceto("plato", "un plato vacío")}
         <p>Aún no hay menú para esta semana.</p>
         <button type="button" class="boton" data-accion="proponer">Proponer menú</button>
         <p class="nota">Saldrá con vuestros platos y 1 o 2 recetas de Mario marcadas como nuevas. Luego podéis cambiar lo que queráis.</p>
@@ -222,148 +276,80 @@ function pintarMenu() {
   const dias = estado.menu.dias
     .map((dia, d) => {
       const fecha = sumarDias(estado.lunes, d);
-      const esHoy = fecha === hoy;
+      const clases = ["dia"];
+      if (fecha === hoy) clases.push("dia-hoy");
+      if (fecha < hoy) clases.push("dia-pasado");
+      if (d % 2) clases.push("dia-izquierda");
+      const dibujo = bocetoDelDia(dia);
       return `
-        <article class="dia${esHoy ? " dia-hoy" : ""}">
-          <h2 class="dia-titulo">${NOMBRES_DIAS[d]} <span class="dia-fecha">${fechaCorta(fecha)}</span>${esHoy ? ` <span class="chip chip-hoy">Hoy</span>` : ""}</h2>
-          ${MOMENTOS.map((momento) => botonHueco(d, momento)).join("")}
+        <article class="${clases.join(" ")}" aria-labelledby="dia-${d}">
+          <h2 class="dia-titulo" id="dia-${d}">
+            <span class="dia-num">${Number(fecha.slice(8))}</span>
+            <span class="dia-nombre">${NOMBRES_DIAS[d]}</span>
+            ${fecha === hoy ? `<span class="sello">hoy</span>` : ""}
+          </h2>
+          <div class="dia-cuerpo">
+            <div class="dia-huecos">${MOMENTOS.map((momento) => botonHueco(d, momento)).join("")}</div>
+            ${dibujo ? `<figure class="dia-boceto">${boceto(dibujo.nombre, dibujo.descripcion)}</figure>` : ""}
+          </div>
         </article>`;
     })
     .join("");
 
   vista.innerHTML = `
-    <section class="resumen-semana" aria-labelledby="titulo-resumen">
-      <h2 id="titulo-resumen" class="subtitulo-vista">La semana de un vistazo</h2>
-      ${tablaSemana(hoy)}
-      ${tablaSemanaMovil(hoy)}
-    </section>
-
-    <section aria-labelledby="titulo-cambiar">
-      <div class="menu-barra">
-        <h2 id="titulo-cambiar" class="subtitulo-vista">Cambiar comidas</h2>
-        <button type="button" class="boton-secundario" data-accion="proponer">Proponer otra semana</button>
-      </div>
-      <p class="nota">Toca una comida (aquí o en la tabla) para cambiarla.</p>
-      <div class="dias">${dias}</div>
-    </section>`;
-}
-
-// ---------- Tabla resumen de la semana ----------
-// Hay dos versiones de la misma tabla y el CSS enseña una u otra:
-// · pantallas anchas: días en columnas, comida y cena en filas (como un menú en papel)
-// · móvil: días en filas, comida y cena en columnas (7 columnas no caben en un móvil)
-
-function celdaResumen(d, momento) {
-  const hueco = estado.menu.dias[d][momento];
-  const piezas = hueco.platos.map((c) => estado.piezas.get(c)).filter(Boolean);
-
-  let contenido;
-  if (hueco.estado === "fuera") {
-    contenido = `<span class="celda-apagada">Fuera</span>`;
-  } else if (!piezas.length) {
-    contenido = `<span class="celda-apagada">—</span>`;
-  } else {
-    contenido = `<span class="celda-plato">${esc(nombreCorto(piezas[0].nombre))}</span>`;
-    if (piezas.length > 1) {
-      contenido += `<span class="celda-con">${piezas.slice(1).map((p) => esc(nombreCorto(p.nombre).toLowerCase())).join(", ")}</span>`;
-    }
-  }
-
-  const marcas = [];
-  if (hueco.estado === "sobras") marcas.push("Sobras");
-  if (hueco.estado !== "fuera" && hueco.personas === 1) marcas.push("Solo yo");
-  if (hueco.estado !== "fuera" && piezas.some((p) => p.origen === "mario")) marcas.push("Mario");
-  const avisos = avisosHueco(estado.menu, d, momento, estado.piezas);
-
-  const etiqueta = `${NOMBRES_DIAS[d]}, ${momento}: ${hueco.estado === "fuera" ? "fuera de casa" : piezas.map((p) => p.nombre).join(", ") || "sin plato"}. Cambiar`;
-
-  return `
-    <button type="button" class="celda-boton" data-dia="${d}" data-momento="${momento}" aria-label="${esc(etiqueta)}">
-      ${contenido}
-      ${marcas.length ? `<span class="celda-marcas">${marcas.map((m) => `<span class="marca${m === "Mario" ? " marca-mario" : ""}">${m}</span>`).join("")}</span>` : ""}
-      ${avisos.length ? `<span class="celda-aviso">${esc(avisos.join(". "))}</span>` : ""}
-    </button>`;
-}
-
-function tablaSemana(hoy) {
-  const cabecera = estado.menu.dias
-    .map((_, d) => {
-      const fecha = sumarDias(estado.lunes, d);
-      return `<th scope="col"${fecha === hoy ? ` class="col-hoy" aria-current="date"` : ""}>${NOMBRES_DIAS[d]}<span class="th-fecha">${fechaCorta(fecha)}</span></th>`;
-    })
-    .join("");
-
-  const filas = MOMENTOS.map((momento) => {
-    const celdas = estado.menu.dias
-      .map((_, d) => `<td${sumarDias(estado.lunes, d) === hoy ? ` class="col-hoy"` : ""}>${celdaResumen(d, momento)}</td>`)
-      .join("");
-    return `<tr><th scope="row">${momento === "comida" ? "Comida" : "Cena"}</th>${celdas}</tr>`;
-  }).join("");
-
-  return `
-    <div class="tabla-semana-marco tabla-ancha">
-      <table class="tabla-semana">
-        <caption class="visualmente-oculto">Menú de la semana del ${fechaCorta(estado.lunes)}</caption>
-        <thead><tr><td></td>${cabecera}</tr></thead>
-        <tbody>${filas}</tbody>
-      </table>
-    </div>`;
-}
-
-function tablaSemanaMovil(hoy) {
-  const filas = estado.menu.dias
-    .map((_, d) => {
-      const fecha = sumarDias(estado.lunes, d);
-      const esHoy = fecha === hoy;
-      return `
-        <tr${esHoy ? ` class="fila-hoy"` : ""}>
-          <th scope="row"${esHoy ? ` aria-current="date"` : ""}>${NOMBRES_DIAS[d].slice(0, 3)}<span class="th-fecha">${fecha.slice(8).replace(/^0/, "")}</span></th>
-          ${MOMENTOS.map((momento) => `<td>${celdaResumen(d, momento)}</td>`).join("")}
-        </tr>`;
-    })
-    .join("");
-
-  return `
-    <div class="tabla-semana-marco tabla-movil">
-      <table class="tabla-semana">
-        <caption class="visualmente-oculto">Menú de la semana del ${fechaCorta(estado.lunes)}</caption>
-        <thead><tr><td></td><th scope="col">Comida</th><th scope="col">Cena</th></tr></thead>
-        <tbody>${filas}</tbody>
-      </table>
-    </div>`;
+    <p class="lema">un boceto por día, del plato que más apetece</p>
+    <div class="dias">${dias}</div>
+    <div class="menu-pie">
+      <p class="nota">Toca una comida para cambiarla.</p>
+      <button type="button" class="boton" data-accion="proponer">Proponer otra semana</button>
+    </div>
+    <aside class="leyenda" aria-label="Qué significa el círculo">
+      ${circulo(new Set(["proteina", "hidrato", "verdura"]), 34)}
+      <p>El círculo dice qué cubre cada comida: <strong class="t-proteina">proteína</strong>, <strong class="t-hidrato">hidrato</strong> y <strong class="t-verdura">verdura</strong>. Un trozo gris es lo que falta.</p>
+    </aside>`;
 }
 
 function botonHueco(d, momento) {
   const hueco = estado.menu.dias[d][momento];
   const piezas = hueco.platos.map((c) => estado.piezas.get(c)).filter(Boolean);
+  const etiquetaMomento = momento === "comida" ? "Comida" : "Cena";
 
-  let texto;
+  let marca, nombre, con;
   if (hueco.estado === "fuera") {
-    texto = `<span class="hueco-principal hueco-apagado">Fuera de casa</span>`;
+    marca = `<span class="circulo-fuera" aria-hidden="true"></span>`;
+    nombre = "Fuera de casa";
+    con = "no suma a la compra";
   } else if (!piezas.length) {
-    texto = `<span class="hueco-principal hueco-apagado">${hueco.platos.length ? "Plato que ya no está en el catálogo" : "Sin plato: toca para elegir"}</span>`;
+    marca = `<span class="circulo-fuera" aria-hidden="true"></span>`;
+    nombre = hueco.platos.length ? "Plato que ya no está en el catálogo" : "Sin plato";
+    con = "toca para elegir";
   } else {
-    texto = `<span class="hueco-principal">${esc(nombreCorto(piezas[0].nombre))}</span>`;
-    if (piezas.length > 1) {
-      texto += `<span class="hueco-con">con ${piezas.slice(1).map((p) => esc(nombreCorto(p.nombre).toLowerCase())).join(" y ")}</span>`;
-    }
+    marca = circulo(new Set(piezas.flatMap((p) => p.aporta)));
+    nombre = nombreCorto(piezas[0].nombre);
+    con = piezas.length > 1 ? `con ${piezas.slice(1).map((p) => nombreCorto(p.nombre).toLowerCase()).join(" y ")}` : "plato único";
   }
 
-  const chips = [];
-  if (hueco.estado === "sobras") chips.push(`<span class="chip">Sobras</span>`);
-  if (hueco.estado !== "fuera" && piezas.some((p) => p.origen === "mario")) chips.push(`<span class="chip chip-mario">Mario · nueva</span>`);
-  if (hueco.estado !== "fuera" && hueco.personas === 1) chips.push(`<span class="chip">Solo yo</span>`);
+  const notas = [];
+  if (hueco.estado !== "fuera" && piezas.some((p) => p.origen === "mario")) notas.push(`<span class="nota-hueco nota-mario">Receta nueva de Mario</span>`);
+  if (hueco.estado === "sobras") notas.push(`<span class="nota-hueco nota-sobras">Sobras</span>`);
+  if (hueco.estado !== "fuera" && hueco.personas === 1) notas.push(`<span class="nota-hueco">Solo yo</span>`);
   for (const aviso of avisosHueco(estado.menu, d, momento, estado.piezas)) {
-    chips.push(`<span class="chip chip-aviso">${esc(aviso)}</span>`);
+    notas.push(`<span class="nota-hueco nota-aviso">${esc(aviso)}</span>`);
   }
 
   return `
     <button type="button" class="hueco hueco-${hueco.estado}" data-dia="${d}" data-momento="${momento}">
-      <span class="hueco-momento">${momento === "comida" ? "Comida" : "Cena"}</span>
-      <span class="hueco-texto">${texto}</span>
-      ${chips.length ? `<span class="hueco-chips">${chips.join("")}</span>` : ""}
+      ${marca}
+      <span class="hueco-texto">
+        <span class="hueco-momento">${etiquetaMomento}</span>
+        <span class="hueco-nombre">${esc(nombre)}</span>
+        <span class="hueco-con">${esc(con)}</span>
+        ${notas.join("")}
+      </span>
     </button>`;
 }
+
+// ---------- Compra ----------
 
 function pintarCompra() {
   const vista = $("#vista-compra");
@@ -392,7 +378,7 @@ function pintarCompra() {
 
   const basicos = r.basicos.length
     ? `<section class="seccion-compra seccion-basicos">
-        <h2>Básicos: mira si os queda</h2>
+        <h2>Mira si queda en casa</h2>
         <ul class="items">${r.basicos.map(itemCompra).join("")}</ul>
       </section>`
     : "";
@@ -404,7 +390,7 @@ function pintarCompra() {
           .map(
             (i) => `
             <li class="item item-en-casa">
-              <span class="item-texto"><span class="item-nombre">${esc(i.nombre)}</span></span>
+              <span class="item-nombre">${esc(i.nombre)}</span>
               <button type="button" class="item-boton" data-devolver="${esc(i.clave)}">Devolver</button>
             </li>`
           )
@@ -422,16 +408,16 @@ function pintarCompra() {
 
   vista.innerHTML = `
     <div class="compra-barra">
-      <p class="compra-resumen"><strong>${r.totales.pendientes}</strong> por comprar de ${r.totales.total}</p>
+      <p class="compra-resumen">quedan ${r.totales.pendientes} de ${r.totales.total}</p>
       <button type="button" class="boton" data-accion="compartir">Compartir</button>
     </div>
 
     <form id="form-extra" class="form-extra">
       <label for="extra-texto" class="visualmente-oculto">Añadir a la lista</label>
-      <input type="text" id="extra-texto" placeholder="Añadir: fruta, papel de cocina…" autocomplete="off" required>
+      <input type="text" id="extra-texto" placeholder="Apunta algo más…" autocomplete="off" required>
       <label for="extra-seccion" class="visualmente-oculto">Sección</label>
       <select id="extra-seccion">${opcionesSeccion}</select>
-      <button type="submit" class="boton">Añadir</button>
+      <button type="submit" class="boton-secundario">Apuntar</button>
     </form>
 
     ${secciones || `<p class="nota">No hay nada que comprar esta semana.</p>`}
@@ -447,9 +433,10 @@ function itemCompra(item) {
       <label class="item-marca">
         <input type="checkbox" data-tachar="${esc(item.clave)}"${item.tachado ? " checked" : ""}>
         <span class="item-texto">
-          <span class="item-nombre">${esc(item.nombre)}</span>${item.texto ? ` <span class="item-cantidad">${esc(item.texto)}</span>` : ""}
+          <span class="item-nombre">${esc(item.nombre)}</span>
           ${detalle ? `<span class="item-detalle">${esc(detalle)}</span>` : ""}
         </span>
+        ${item.texto ? `<span class="item-puntos" aria-hidden="true"></span><span class="item-cantidad">${esc(item.texto)}</span>` : ""}
       </label>
       <button type="button" class="item-boton" data-en-casa="${esc(item.clave)}" aria-label="Ya tenemos ${esc(item.nombre)} en casa">Lo tengo</button>
     </li>`;
@@ -460,7 +447,7 @@ function itemExtra(extra) {
     <li class="item item-extra${extra.tachado ? " item-tachado" : ""}">
       <label class="item-marca">
         <input type="checkbox" data-tachar-extra="${esc(extra.id)}"${extra.tachado ? " checked" : ""}>
-        <span class="item-texto"><span class="item-nombre">${esc(extra.texto)}</span><span class="item-detalle">añadido a mano</span></span>
+        <span class="item-texto"><span class="item-nombre">${esc(extra.texto)}</span><span class="item-detalle">apuntado a mano</span></span>
       </label>
       <button type="button" class="item-boton" data-quitar-extra="${esc(extra.id)}" aria-label="Quitar ${esc(extra.texto)}">Quitar</button>
     </li>`;
@@ -576,7 +563,7 @@ function platoDialogo(pieza) {
   return `
     <li class="plato">
       <div class="plato-fila">
-        <span class="plato-nombre">${esc(pieza.nombre)}${pieza.origen === "mario" ? ` <span class="chip chip-mario">Mario · nueva</span>` : ""}</span>
+        <span class="plato-nombre">${esc(pieza.nombre)}${pieza.origen === "mario" ? ` <span class="nota-hueco nota-mario">Receta nueva de Mario</span>` : ""}</span>
         <button type="button" class="enlace-boton" data-quitar="${esc(pieza.clave)}">Quitar</button>
       </div>
       <details>
@@ -741,8 +728,15 @@ async function subirDocumento(input) {
   }
 }
 
+const TITULOS = {
+  menu: 'Menú de la <em>semana</em>',
+  compra: 'La <em>compra</em>',
+  ajustes: '<em>Ajustes</em>',
+};
+
 function cambiarPestana(nombre) {
   estado.pestana = nombre;
+  $("#titulo-vista").innerHTML = TITULOS[nombre];
   for (const pestana of ["menu", "compra", "ajustes"]) {
     const activa = pestana === nombre;
     const boton = $(`#pestana-${pestana}`);
