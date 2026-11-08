@@ -39,6 +39,21 @@ El repo es público, así que **aquí solo hay código**. Los datos (catálogo, 
 7. **Subir los datos.** Publica la web, entra en la zona privada y, en *Ajustes*, sube `catalogo-platos.json` y `mario-web.json`. Esos archivos **no** van al repo (el `.gitignore` los bloquea).
 8. **En el móvil.** Abre la zona privada en Safari → *Compartir* → *Añadir a pantalla de inicio*. Queda como una app llamada "Menú".
 
+## Recuperar la contraseña
+
+En la pantalla de entrar está **"He olvidado mi contraseña"**: escribes el email, Supabase manda un correo con un enlace, el enlace vuelve a esta página y ahí eliges la contraseña nueva. La contraseña nunca se ve en ningún sitio: Supabase solo guarda una versión cifrada.
+
+Para que funcione, una sola vez en Supabase:
+
+1. *Authentication* → *URL Configuration* → **Site URL**: `https://fermendu.github.io/portfolio/proyectos/zona-privada/`
+2. En la misma página, **Redirect URLs** → *Add URL* → `https://fermendu.github.io/portfolio/proyectos/zona-privada/**` (los `**` permiten cualquier dirección dentro de la carpeta, con o sin `index.html`). Sin esto, el enlace del correo te manda a otra página (por defecto, `localhost:3000`).
+
+Límites del correo que trae Supabase de serie (plan gratis, sin servidor de correo propio):
+
+- Solo manda correos a emails que sean del equipo de la organización en Supabase (*Organization settings* → *Team*). Si el email con el que entras en la zona privada es el mismo que el de tu cuenta de Supabase, ya lo es. Para que Ana pueda recuperar la suya habría que añadir su email al equipo o conectar un servidor de correo propio (*Authentication* → *Emails* → *SMTP Settings*).
+- Como mucho **2 correos por hora** en todo el proyecto. Si pides varios seguidos, espera.
+- El enlace caduca (por defecto, en 1 hora) y solo vale una vez.
+
 ## Bueno saber
 
 - **Plan gratis de Supabase:** si el proyecto pasa 7 días casi sin uso, se pausa. No se pierde nada: se reactiva desde el panel con *Resume project*. Usándolo cada semana no debería pasar.

@@ -81,21 +81,38 @@ async function iniciar() {
   }
   try {
     const sesion = await datos.sesionActual();
-    if (sesion) await entrar();
-    else mostrarAcceso();
+    // Si venimos del enlace del correo, quitamos lo que trae la dirección detrás de la #:
+    // ya no hace falta y así no se queda en el historial ni al añadir la página al móvil.
+    if (datos.vieneDeRecuperacion || datos.errorEnlace) history.replaceState(null, "", location.pathname);
+
+    if (sesion && datos.vieneDeRecuperacion) mostrarNuevaContrasena(sesion.user.email);
+    else if (sesion) await entrar();
+    else mostrarAcceso(datos.vieneDeRecuperacion || datos.errorEnlace ? ENLACE_CADUCADO : "");
   } catch (error) {
     console.error(error);
     mostrarAcceso("No se ha podido conectar. Prueba a recargar la página.");
   }
 }
 
-function mostrarAcceso(mensaje = "") {
+const ENLACE_CADUCADO = "El enlace del correo ha caducado o ya se usó. Pide otro con «He olvidado mi contraseña».";
+
+// En la pantalla de acceso hay tres formularios y solo se ve uno:
+// "acceso" (entrar), "recuperar" (pedir el correo) y "nueva" (elegir contraseña nueva).
+function mostrarAcceso(mensaje = "", formulario = "acceso") {
   $("#cargando").hidden = true;
   $("#panel").hidden = true;
   $("#acceso").hidden = false;
-  const estadoAcceso = $("#acceso-estado");
-  estadoAcceso.textContent = mensaje;
-  estadoAcceso.className = mensaje ? "form-estado form-estado-error" : "form-estado";
+  for (const nombre of ["acceso", "recuperar", "nueva"]) {
+    $(`#form-${nombre}`).hidden = nombre !== formulario;
+  }
+  ponerEstado(`#${formulario}-estado`, mensaje, mensaje ? "error" : "");
+}
+
+// El párrafo de estado debajo de cada botón: tipo "" (normal), "ok" o "error"
+function ponerEstado(selector, mensaje, tipo = "") {
+  const parrafo = $(selector);
+  parrafo.textContent = mensaje;
+  parrafo.className = tipo ? `form-estado form-estado-${tipo}` : "form-estado";
 }
 
 async function entrar() {
@@ -133,6 +150,95 @@ async function enviarAcceso(evento) {
   } finally {
     boton.disabled = false;
   }
+}
+
+// ---------- He olvidado mi contraseña ----------
+
+// Paso 1: pasar al formulario de pedir el correo, con el email ya escrito si lo había
+function irARecuperar() {
+  $("#email-recuperar").value = $("#email").value.trim();
+  mostrarAcceso("", "recuperar");
+  $("#email-recuperar").focus();
+}
+
+async function enviarRecuperar(evento) {
+  evento.preventDefault();
+  const boton = evento.target.querySelector("button[type='submit']");
+  boton.disabled = true;
+  ponerEstado("#recuperar-estado", "Enviando…");
+  try {
+    await datos.pedirCambioContrasena($("#email-recuperar").value.trim());
+    // Supabase no dice si el email existe (así nadie puede ir probando cuentas): por eso el "si"
+    ponerEstado(
+      "#recuperar-estado",
+      "Hecho. Si ese email tiene acceso, en unos minutos te llega un correo con un enlace. Mira también en spam.",
+      "ok"
+    );
+  } catch (error) {
+    console.error(error);
+    ponerEstado("#recuperar-estado", mensajeErrorCorreo(error), "error");
+  } finally {
+    boton.disabled = false;
+  }
+}
+
+function mensajeErrorCorreo(error) {
+  if (error.status === 429 || error.code === "over_email_send_rate_limit") {
+    return "Se han pedido demasiados correos seguidos. Espera un rato (como mucho una hora) y vuelve a probar.";
+  }
+  if (error.code === "email_address_not_authorized") {
+    return "Supabase todavía no puede mandar correos a este email. Mira «Recuperar la contraseña» en LEEME.md.";
+  }
+  return "No se ha podido enviar el correo. Inténtalo de nuevo en un rato.";
+}
+
+// Paso 2: venimos del enlace del correo, que ya da una sesión: solo falta elegir la contraseña
+function mostrarNuevaContrasena(email) {
+  mostrarAcceso("", "nueva");
+  $("#email-nueva").value = email ?? "";
+  $("#contrasena-nueva").focus();
+}
+
+async function enviarNueva(evento) {
+  evento.preventDefault();
+  const nueva = $("#contrasena-nueva").value;
+  if (nueva !== $("#contrasena-repetida").value) {
+    ponerEstado("#nueva-estado", "Las dos contraseñas no coinciden.", "error");
+    return;
+  }
+
+  const boton = evento.target.querySelector("button[type='submit']");
+  boton.disabled = true;
+  ponerEstado("#nueva-estado", "Guardando…");
+  try {
+    await datos.cambiarContrasena(nueva);
+  } catch (error) {
+    console.error(error);
+    ponerEstado("#nueva-estado", mensajeErrorContrasena(error), "error");
+    boton.disabled = false;
+    return;
+  }
+
+  // Contraseña guardada: entramos directamente
+  try {
+    await entrar();
+    avisar("Contraseña cambiada");
+  } catch (error) {
+    console.error(error);
+    mostrarAcceso("Contraseña cambiada, pero no se ha podido cargar la zona privada. Recarga la página.");
+  } finally {
+    // Se borran después de ocultar el formulario, para que el navegador pueda ofrecer guardarla
+    $("#contrasena-nueva").value = "";
+    $("#contrasena-repetida").value = "";
+    boton.disabled = false;
+  }
+}
+
+function mensajeErrorContrasena(error) {
+  if (error.code === "same_password") return "Es la misma que ya tenías: elige otra distinta.";
+  if (error.code === "weak_password") return "Supabase la ve poco segura. Prueba con una más larga o con números y símbolos.";
+  if (error.status === 401 || error.status === 403 || error.code === "session_not_found") return ENLACE_CADUCADO;
+  return "No se ha podido guardar. Inténtalo de nuevo.";
 }
 
 async function salir() {
@@ -750,6 +856,10 @@ function cambiarPestana(nombre) {
 
 function conectarEventos() {
   $("#form-acceso").addEventListener("submit", enviarAcceso);
+  $("#ir-a-recuperar").addEventListener("click", irARecuperar);
+  $("#form-recuperar").addEventListener("submit", enviarRecuperar);
+  $("#volver-a-entrar").addEventListener("click", () => mostrarAcceso());
+  $("#form-nueva").addEventListener("submit", enviarNueva);
 
   $("#semana-anterior").addEventListener("click", () => cargarSemana(sumarDias(estado.lunes, -7)));
   $("#semana-siguiente").addEventListener("click", () => cargarSemana(sumarDias(estado.lunes, 7)));

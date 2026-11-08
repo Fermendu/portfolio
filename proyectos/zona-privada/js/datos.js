@@ -7,8 +7,20 @@ import { SUPABASE_URL, SUPABASE_KEY } from "./config.js";
 
 export const configurado = !SUPABASE_URL.includes("TU-PROYECTO") && !SUPABASE_KEY.includes("PEGA_AQUI");
 
-// La sesión se guarda en el navegador: no hace falta volver a entrar cada vez
-const supabase = configurado ? createClient(SUPABASE_URL, SUPABASE_KEY) : null;
+// ¿Llegamos desde el enlace del correo "He olvidado mi contraseña"?
+// Supabase vuelve a esta página con datos detrás de la # (type=recovery si todo va bien,
+// error_code si el enlace ha caducado o ya se usó). Se mira ANTES de crear el cliente,
+// porque al crearlo Supabase lee esos datos y limpia la dirección.
+const restoDireccion = new URLSearchParams(location.hash.slice(1) || location.search.slice(1));
+export const vieneDeRecuperacion = restoDireccion.get("type") === "recovery";
+export const errorEnlace = restoDireccion.get("error_code");
+
+// La sesión se guarda en el navegador: no hace falta volver a entrar cada vez.
+// flowType "implicit": el enlace del correo funciona aunque lo abras en otro aparato
+// (pides el correo en el Mac y lo abres en el iPhone, o al revés).
+const supabase = configurado
+  ? createClient(SUPABASE_URL, SUPABASE_KEY, { auth: { flowType: "implicit" } })
+  : null;
 
 // Supabase devuelve { data, error }: si hay error, lo lanzamos para tratarlo en un solo sitio
 function comprobar({ data, error }) {
@@ -30,6 +42,18 @@ export async function iniciarSesion(email, contrasena) {
 
 export async function cerrarSesion() {
   await supabase.auth.signOut();
+}
+
+// "He olvidado mi contraseña": Supabase manda un correo con un enlace que vuelve a esta misma página.
+// Esa dirección tiene que estar permitida en Supabase (Authentication → URL Configuration; ver LEEME.md).
+export async function pedirCambioContrasena(email) {
+  const vuelta = location.origin + location.pathname;
+  comprobar(await supabase.auth.resetPasswordForEmail(email, { redirectTo: vuelta }));
+}
+
+// Guarda la contraseña nueva. Solo funciona con sesión, que es lo que da el enlace del correo.
+export async function cambiarContrasena(nueva) {
+  comprobar(await supabase.auth.updateUser({ password: nueva }));
 }
 
 // Nombre del miembro (o null si la cuenta existe pero no está en la tabla miembros)

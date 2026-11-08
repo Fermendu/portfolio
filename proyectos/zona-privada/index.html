@@ -53,6 +53,35 @@
 
         <button type="submit" class="boton">Entrar</button>
         <p id="acceso-estado" class="form-estado" role="status"></p>
+        <button type="button" id="ir-a-recuperar" class="enlace-boton acceso-enlace">He olvidado mi contraseña</button>
+      </form>
+
+      <!-- Paso 1 de la recuperación: pedir el correo con el enlace -->
+      <form id="form-recuperar" class="formulario acceso-formulario" hidden>
+        <p class="acceso-explicacion">Escribe tu email y te mandamos un enlace para elegir una contraseña nueva.</p>
+        <label for="email-recuperar">Email</label>
+        <input type="email" id="email-recuperar" name="email" autocomplete="username" required>
+
+        <button type="submit" class="boton">Enviarme el enlace</button>
+        <p id="recuperar-estado" class="form-estado" role="status"></p>
+        <button type="button" id="volver-a-entrar" class="enlace-boton acceso-enlace">← Volver a entrar</button>
+      </form>
+
+      <!-- Paso 2: al volver desde el enlace del correo, elegir la contraseña nueva -->
+      <form id="form-nueva" class="formulario acceso-formulario" hidden>
+        <p class="acceso-explicacion">Elige tu contraseña nueva. Si el navegador te ofrece guardarla, dile que sí.</p>
+        <!-- El email va aquí (solo lectura) para que el gestor de contraseñas sepa de qué cuenta es -->
+        <label for="email-nueva">Cuenta</label>
+        <input type="email" id="email-nueva" name="email" autocomplete="username" readonly>
+
+        <label for="contrasena-nueva">Contraseña nueva</label>
+        <input type="password" id="contrasena-nueva" name="contrasena-nueva" autocomplete="new-password" minlength="8" required>
+
+        <label for="contrasena-repetida">Repítela</label>
+        <input type="password" id="contrasena-repetida" name="contrasena-repetida" autocomplete="new-password" minlength="8" required>
+
+        <button type="submit" class="boton">Guardar contraseña</button>
+        <p id="nueva-estado" class="form-estado" role="status"></p>
       </form>
     </section>
 

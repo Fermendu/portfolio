@@ -155,6 +155,11 @@ body {
   color: var(--color-principal);
 }
 
+/* El atributo hidden siempre oculta, aunque la clase diga display: flex (como .formulario) */
+[hidden] {
+  display: none !important;
+}
+
 /* ===== Acceso ===== */
 .acceso .titulo-vista {
   margin: 14px 0 8px;
@@ -173,6 +178,23 @@ body {
 .acceso-formulario .boton {
   margin-top: 16px;
   align-self: flex-start;
+}
+
+/* "He olvidado mi contraseña" y "Volver a entrar" */
+.acceso-enlace {
+  align-self: flex-start;
+  min-height: 44px; /* fácil de pulsar con el dedo */
+  font-size: 0.9rem;
+}
+
+.acceso-explicacion {
+  margin: 0 0 4px;
+  color: var(--color-suave);
+}
+
+/* El email de la cuenta al elegir contraseña nueva: se ve pero no se escribe */
+.acceso-formulario input[readonly] {
+  color: var(--color-suave);
 }
 
 .formulario input,
